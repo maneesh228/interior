@@ -65,62 +65,38 @@
                     <div class="primary-header-inner">
                         <div class="header-left-wrap">
                             <div class="header-logo d-lg-block">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo/logo-2.png' ); ?>" alt="logo">
                                 </a>
                             </div>
                             <div class="header-menu-wrap">
                                 <div class="mobile-menu-items">
                                     <ul>
+                                        <li>
+                                            <a href="/">Home</a>
+                                        </li>
+                                         <li>
+                                            <a href="/about-us">About Us</a>
+                                        </li>
                                         <li class="menu-item-has-children">
-                                            <a href="#">Home</a>
+                                            <a href="/service">Services</a>
                                             <ul>
-                                                <li class="active"><a href="index.html">Home One</a></li>
-                                                <li><a href="index-2.html">Home Two</a></li>
-                                                <li><a href="index-3.html">Home Three</a></li>
-                                                <li><a href="index-4.html">Home Four</a></li>
-                                                <li><a href="index-5.html">Home Five</a></li>
-                                                <li><a href="index-6.html">Home Six</a></li>
-                                                <li><a href="index-7.html">Home Seven</a></li>
-                                                <li><a href="index-8.html">Home Eight</a></li>
-                                                <li><a href="index-9.html">Home Nine</a></li>
+                                                <li><a href="/service-1">Service Style 1</a></li>
+                                                <li><a href="/service-2">Service Style 2</a></li>
+                                                <li><a href="/service-3">Service Style 3</a></li>
+                                                <li><a href="/service-details">Service Details</a></li>
                                             </ul>
                                         </li>
                                         <li class="menu-item-has-children">
-                                            <a href="service.html">Services</a>
+                                            <a href="/projects">Projects</a>
                                             <ul>
-                                                <li><a href="service.html">Service Style 1</a></li>
-                                                <li><a href="service-2.html">Service Style 2</a></li>
-                                                <li><a href="service-3.html">Service Style 3</a></li>
-                                                <li><a href="service-details.html">Service Details</a></li>
+                                                <li><a href="/portfolio">Portfolio Style 1</a></li>
+                                                <li><a href="/portfolio-2">Portfolio Style 2</a></li>
+                                                <li><a href="/portfolio-3">Portfolio Style 3</a></li>
+                                                <li><a href="/portfolio-details">Portfolio Details</a></li>
                                             </ul>
                                         </li>
-                                        <li class="menu-item-has-children">
-                                            <a href="service.html">Portfolio</a>
-                                            <ul>
-                                                <li><a href="portfolio.html">Portfolio Style 1</a></li>
-                                                <li><a href="portfolio-2.html">Portfolio Style 2</a></li>
-                                                <li><a href="portfolio-3.html">Portfolio Style 3</a></li>
-                                                <li><a href="portfolio-details.html">Portfolio Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children">
-                                            <a href="#">Pages</a>
-                                            <ul>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><a href="team.html">Team</a></li>
-                                                <li><a href="team-details.html">Team Details</a></li>
-                                                <li><a href="pricing.html">Pricing Plans</a></li>
-                                                <li><a href="gallary-1.html">Gallary Style 1</a></li>
-                                                <li><a href="gallary-2.html">Gallary Style 2</a></li>
-                                                <li><a href="shop.html">Shop</a></li>
-                                                <li><a href="shop-details.html">Shop Single</a></li>
-                                                <li><a href="faq.html">Faq</a></li>
-                                                <li><a href="error.html">404 Error</a></li>
-                                                <li><a href="coming-soon.html">Coming Soon</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children">
+                                        <!-- <li class="menu-item-has-children">
                                             <a href="blog-grid.html">Blog</a>
                                             <ul>
                                                 <li><a href="blog-grid.html">Blog Grid</a></li>
@@ -129,8 +105,9 @@
                                                 <li><a href="blog-single.html">Blog Single</a></li>
                                                 <li><a href="blog-details.html">Blog Details</a></li>
                                             </ul>
-                                        </li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        </li> -->
+                                         <li><a href="/media">Media</a></li>
+                                        <li><a href="/contact">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -145,7 +122,7 @@
                                 </span>
                             </a>
                             <div class="header-btn-wrap">
-                                <a href="contact.html" class="tl-primary-btn header-btn">Get in Touch</a>
+                                <a href="/contact" class="tl-primary-btn header-btn">Get in Touch</a>
                             </div>
                             <div class="search-icon dl-search-icon">
                                 <i class="fa-solid fa-magnifying-glass"></i>

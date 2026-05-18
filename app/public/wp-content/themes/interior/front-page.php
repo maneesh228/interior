@@ -1,5 +1,7 @@
 ﻿<?php
 /**
+ * Template Name: Front Page
+ *
  * Static front page generated from Maneesh index.html.
  *
  * @package Interior

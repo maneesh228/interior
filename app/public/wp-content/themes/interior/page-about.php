@@ -1,0 +1,502 @@
+﻿<?php
+/**
+ * Template Name: About
+ *
+ * Generated from Maneesh/about.html.
+ *
+ * @package Interior
+ */
+
+get_header();
+?>
+<div id="antra-smooth-wrapper">
+        <div id="antra-smooth-content">
+
+        <section class="page-header">
+            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png' ); ?>"></div>
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="page-header-content">
+                    <h1 class="title">About us</h1>
+                    <h4 class="sub-title"><a class='home' href='index.html'>Home </a><span class="icon">-</span><a class='inner-page' href='about.html'> About Us</a></h4>
+                </div>
+            </div>
+        </section>
+        <!-- ./ page-header -->
+
+        <section class="about-section-2 pt-130 pb-130">
+            <div class="shape-1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/about-shape-1.png' ); ?>" alt="shape"></div>
+            <div class="container container-2">
+                <div class="row about-wrap-2">
+                    <div class="col-lg-8">
+                        <div class="about-content-left">
+                            <div class="section-heading">
+                                <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Started In 1991</h4>
+                                <h2 class="section-title title-2">We Shape <span>Interior Designs, <br> Crafting Timeless</span> and Inspiring <br> Spaces</h2>
+                            </div>
+                            <div class="about-counter-wrap">
+                                <div class="counter-content">
+                                    <h3 class="title"><span class="odometer" data-count="26">0</span></h3>
+                                    <p>Years of <br> experience</p>
+                                </div>
+                                <div class="counter-img">
+                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/about-img-2.png' ); ?>" alt="counter">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="about-content-right">
+                            <div class="about-img-1">
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/about-img-3.png' ); ?>" alt="about">
+                            </div>
+                            <div class="about-desc">
+                                <p>We believe that every space has the power to inspire, and that great design brings. Our mission is to craft environments that stir creativity, evoke emotion, and reflect the essence of those who inhabit them.</p>
+                                <div class="about-btn">
+                                    <a href="about.html" class="tl-primary-btn">More About Us <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ about-section -->
+
+        <div class="video-area-wrap">
+            <div class="video-bg" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/video-bg-3.png' ); ?>"></div>
+            <div class="play-btn">
+                <a
+                    class="video-popup venobox"
+                    data-autoplay="true"
+                    data-vbtype="video"
+                    href="https://youtu.be/JwC-Qx1lJso">
+                    play
+                </a>
+            </div>
+        </div>
+        <!-- ./ video-section -->
+
+        <section class="history-section pt-130 pb-130">
+            <div class="history-text"><span>antra</span></div>
+            <div class="history-element"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/counter-img-1.png' ); ?>" alt="counter"></div>
+            <div class="container container-2">
+                <div class="row section-heading-wrap ml-0 mw-100">  
+                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">our History</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2">Our history <span>is full of <br> interesting</span> stages <br> and events.</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="history-carousel-wrap">
+                    <div class="history-carousel swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="history-item">
+                                    <div class="history-img">
+                                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/history-img-1.png' ); ?>" alt="history">
+                                    </div>
+                                    <div class="history-content">
+                                        <div class="circle"></div>
+                                        <h3 class="title"><a href="about.html">2025</a></h3>
+                                        <p>Celebrates 15 years with a retrospective showcase of the companyâ€™s projects and milestones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ history-section -->
+
+        <section class="process-section overflow-hidden bg-white">
+            <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/process-shape-1.png' ); ?>"></div>
+            <div class="container container-2">
+                <div class="heading-space align-items-end">
+                    <div class="section-heading mb-0">
+                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">How We Work</h4>
+                        <h2 class="section-title title-2">Description <span>Architecture <br> process</span> for exceptional <br> results.</h2>
+                    </div>
+                    <div class="process-desc">
+                        <p class="mb-0">Our process is alive - adapting, refining, and growing <br> with your vision. Always. <br> Like artists with a blank canvas, we transform rooms <br> into living works of art.</p>
+                    </div>
+                </div>
+                <div class="row gy-xl-0 gy-4 process-wrap">
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="process-item">
+                            <div class="process-thumb">
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-1.png' ); ?>" alt="process">
+                            </div>
+                            <div class="process-content">
+                                <h3 class="title"><span>01</span>. Initial Consultation</h3>
+                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
+                            </div>
+                            <span class="number">01</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="process-item">
+                            <div class="process-thumb">
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-2.png' ); ?>" alt="process">
+                            </div>
+                            <div class="process-content">
+                                <h3 class="title"><span>02</span>. Design & Planning</h3>
+                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
+                            </div>
+                            <span class="number">02</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="process-item">
+                            <div class="process-thumb">
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-3.png' ); ?>" alt="process">
+                            </div>
+                            <div class="process-content">
+                                <h3 class="title"><span>03</span>. Implementation</h3>
+                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
+                            </div>
+                            <span class="number">03</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="process-item">
+                            <div class="process-thumb">
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-4.png' ); ?>" alt="process">
+                            </div>
+                            <div class="process-content">
+                                <h3 class="title"><span>04</span>. Project Handover</h3>
+                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
+                            </div>
+                            <span class="number">04</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-text">
+                    <h5 class="bottom-text">Weâ€™ve been working hard to impress you. <a href="contact.html">Start yourâ€™s today</a></h5>
+                </div>
+            </div>
+        </section>
+        <!-- ./ process-section -->
+
+        <section class="award-section bg-grey pt-130 pb-130">
+            <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/team-bg-shape-1.png' ); ?>" alt="shape"></div>
+            <div class="container container-2">
+                <div class="row section-heading-wrap">  
+                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Award & achievement</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2">Design That <span>Speaks Our <br> Industry</span> Awards</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row award-wrap">
+                    <div class="col-lg-5">
+                        <div class="award-img">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-1.png' ); ?>" alt="img">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="award-item-list">
+                            <div class="award-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-1.png' ); ?>">
+                                <div class="left-content">
+                                    <span class="number">2025</span>
+                                    <h3 class="title">Best Residential Design</h3>
+                                </div>
+                                <div class="mid-content">
+                                    <span>Interior Design</span>
+                                </div>
+                            </div>
+                            <div class="award-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-2.jpg' ); ?>">
+                                <div class="left-content">
+                                    <span class="number">2024</span>
+                                    <h3 class="title">Top Commercial Design</h3>
+                                </div>
+                                <div class="mid-content">
+                                    <span>Architecture</span>
+                                </div>
+                            </div>
+                            <div class="award-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-3.jpg' ); ?>">
+                                <div class="left-content">
+                                    <span class="number">2023</span>
+                                    <h3 class="title">Sustainable Design Award</h3>
+                                </div>
+                                <div class="mid-content">
+                                    <span>Community Center</span>
+                                </div>
+                            </div>
+                            <div class="award-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-4.jpg' ); ?>">
+                                <div class="left-content">
+                                    <span class="number">2022</span>
+                                    <h3 class="title">Creative Office Space Award</h3>
+                                </div>
+                                <div class="mid-content">
+                                    <span>Corporation Building</span>
+                                </div>
+                            </div>
+                            <div class="award-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/award-img-5.jpg' ); ?>">
+                                <div class="left-content">
+                                    <span class="number">2020</span>
+                                    <h3 class="title">Emerging Designer of the Year</h3>
+                                </div>
+                                <div class="mid-content">
+                                    <span>Interior Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ award-section -->
+
+        <section class="gallary-section-2 pb-130 overflow-hidden">
+            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/gallary-bg-1.png' ); ?>"></div>
+            <div class="container container-2">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="gallary-left-content">
+                            <div class="section-heading white-content mb-0">
+                                <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">our gallery</h4>
+                                <h2 class="section-title">Interior <br>design</h2>
+                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur. <br> Magna nunc porttitor convallis faucibus <br> laoreet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="gallary-carousel-wrap">
+                            <div class="gallary-carousel swiper">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="gallary-inner-item">
+                                            <a href="about.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/gallary-img-1.png' ); ?>" alt="img"></a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="gallary-inner-item">
+                                            <a href="about.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/gallary-img-2.png' ); ?>" alt="img"></a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="gallary-inner-item">
+                                            <a href="about.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/gallary-img-3.png' ); ?>" alt="img"></a>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="gallary-inner-item">
+                                            <a href="about.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/gallary-img-4.png' ); ?>" alt="img"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-arrow">
+                                <div class="swiper-nav swiper-prev"><i class="fa-regular fa-arrow-left"></i></div>
+                                <div class="swiper-nav swiper-next"><i class="fa-regular fa-arrow-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ gallary-section -->
+
+        <section class="testimonial-section bg-white pt-150">
+            <div class="container container-2">
+                <div class="row section-heading-wrap">  
+                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Owr clients say</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2">Hereâ€™s What <span>warm words <br> our clients</span> say</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="testi-img">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/testi/testi-img-1.png' ); ?>" alt="testi">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="testi-carousel-wrap">
+                            <div class="testi-top-content">
+                                <div class="left-content">
+                                    <h3 class="rating">4.80</h3>
+                                    <div class="rating-list">
+                                        <ul>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                        </ul>
+                                        <span>2,688 reviews</span>
+                                    </div>
+                                </div>
+                                <div class="right-content">
+                                    <p>From concept to reality, the team turned my <br> vision into a stunning, livable space. I couldnâ€™t <br> be happier with this!</p>
+                                </div>
+                            </div>
+                            <div class="testi-carousel swiper">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="testi-item">
+                                            <p>â€œA wonderful experience! They knew what they were doing and were incredibly knowledgeable throughout the process."</p>
+                                            <div class="testi-author">
+                                                <div class="author-img">
+                                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/testi/testi-author-1.png' ); ?>" alt="author">
+                                                </div>
+                                                <h4 class="name">Morgan Dufresne <span>Company Owner</span></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ testimonial-section -->
+
+        <section class="sponsor-section bg-white pt-120 pb-130 overflow-hidden">
+            <div class="container">
+                <div class="sponsor-text-wrap sponsor-text-wrap-2">
+                    <h5 class="sponsor-text">Our WebsiteÂ <span>75000</span>+Â VIP Customer</h5>
+                </div>
+                <div class="sponsor-carousel swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-1.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-2.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-3.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-4.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-5.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="sponsor-item">
+                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-6.png' ); ?>" alt="sponsor"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ sponsor-section -->
+
+        <section class="newsletter-section bg-white pb-130 overflow-hidden">
+            <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/newsletter-shape.png' ); ?>" alt="shape"></div>
+            <div class="container">
+                <div class="newsletter-wrap">
+                    <div class="section-heading text-center">
+                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Subscribe to the newsletter</h4>
+                        <h2 class="section-title">Join <span>our newsletter <br> stay</span> up to date</h2>
+                        <p>Join our newsletter. Learn something new, gain access to exclusive content, <br> andÂ stayÂ informed with the latest updates in the industry.</p>
+                    </div>
+                    <div class="newsletter-form">
+                        <input type="text" id="email" name="email" class="form-control" placeholder="Email address..">
+                        <button type="submit"><i class="fa-regular fa-arrow-right-long"></i></button>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ newsletter-section -->
+
+        
+<?php
+get_footer();
+
