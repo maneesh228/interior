@@ -255,6 +255,11 @@ function interior_get_ordered_items( $post_type ) {
  * @return string
  */
 function interior_get_template_page_url( $template ) {
+	$detail_routes = array(
+		'page-serviceDetails.php' => 'service-details',
+		'page-projectDetails.php' => 'project-details',
+	);
+
 	$pages = get_pages(
 		array(
 			'meta_key'   => '_wp_page_template',
@@ -267,10 +272,63 @@ function interior_get_template_page_url( $template ) {
 		return get_permalink( $pages[0]->ID );
 	}
 
-	$fallback_slug = preg_replace( '/^page-(.+)\.php$/', '$1', $template );
+	if ( isset( $detail_routes[ $template ] ) ) {
+		$page = get_page_by_path( $detail_routes[ $template ] );
+		if ( $page && 'publish' === $page->post_status ) {
+			return get_permalink( $page->ID );
+		}
+	}
+
+	$fallback_slug = isset( $detail_routes[ $template ] ) ? $detail_routes[ $template ] : preg_replace( '/^page-(.+)\.php$/', '$1', $template );
 
 	return home_url( '/' . trim( $fallback_slug, '/' ) . '/' );
 }
+
+/**
+ * Register direct detail routes so detail templates work even without a page match.
+ */
+function interior_register_detail_routes() {
+	add_rewrite_rule( '^service-details/?$', 'index.php?interior_detail_template=service', 'top' );
+	add_rewrite_rule( '^serviceDetails/?$', 'index.php?interior_detail_template=service', 'top' );
+	add_rewrite_rule( '^project-details/?$', 'index.php?interior_detail_template=project', 'top' );
+	add_rewrite_rule( '^projectDetails/?$', 'index.php?interior_detail_template=project', 'top' );
+}
+add_action( 'init', 'interior_register_detail_routes' );
+
+/**
+ * Allow the detail-route query var.
+ *
+ * @param array $vars Public query vars.
+ * @return array
+ */
+function interior_detail_query_vars( $vars ) {
+	$vars[] = 'interior_detail_template';
+	return $vars;
+}
+add_filter( 'query_vars', 'interior_detail_query_vars' );
+
+/**
+ * Load service/project detail templates for the direct routes.
+ *
+ * @param string $template Current template.
+ * @return string
+ */
+function interior_detail_template_include( $template ) {
+	$detail_template = get_query_var( 'interior_detail_template' );
+
+	if ( 'service' === $detail_template ) {
+		$file = get_template_directory() . '/page-serviceDetails.php';
+		return file_exists( $file ) ? $file : $template;
+	}
+
+	if ( 'project' === $detail_template ) {
+		$file = get_template_directory() . '/page-projectDetails.php';
+		return file_exists( $file ) ? $file : $template;
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'interior_detail_template_include' );
 
 /**
  * Return a short text summary from item content.
