@@ -79,7 +79,7 @@
                                             <a href="/about-us">About Us</a>
                                         </li>
                                         <li class="menu-item-has-children">
-                                            <a href="/service">Services</a>
+                                            <a href="/services">Services</a>
                                             <ul>
                                                 <li><a href="/service-1">Service Style 1</a></li>
                                                 <li><a href="/service-2">Service Style 2</a></li>

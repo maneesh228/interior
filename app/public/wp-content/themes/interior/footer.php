@@ -1,4 +1,4 @@
-﻿<footer class="footer-section overflow-hidden">
+<footer class="footer-section overflow-hidden">
             <div class="footer-bg" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/footer-bg.png' ); ?>"></div>
             <div class="footer-shade"></div>
             <div class="container container-2">
