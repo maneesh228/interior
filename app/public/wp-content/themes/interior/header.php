@@ -78,23 +78,43 @@
                                          <li>
                                             <a href="/about-us">About Us</a>
                                         </li>
+                                        <?php
+                                        $header_services        = function_exists( 'interior_get_ordered_items' ) ? interior_get_ordered_items( 'interior_service' ) : null;
+                                        $header_detail_page_url = function_exists( 'interior_get_template_page_url' ) ? interior_get_template_page_url( 'page-serviceDetails.php' ) : home_url( '/service-details/' );
+                                        ?>
                                         <li class="menu-item-has-children">
-                                            <a href="/services">Services</a>
-                                            <ul>
-                                                <li><a href="/service-1">Service Style 1</a></li>
-                                                <li><a href="/service-2">Service Style 2</a></li>
-                                                <li><a href="/service-3">Service Style 3</a></li>
-                                                <li><a href="/service-details">Service Details</a></li>
-                                            </ul>
+                                            <a href="<?php echo esc_url( home_url( '/services/' ) ); ?>">Services</a>
+                                            <?php if ( $header_services && $header_services->have_posts() ) : ?>
+                                                <ul>
+                                                    <?php
+                                                    while ( $header_services->have_posts() ) :
+                                                        $header_services->the_post();
+                                                        $header_service_url = add_query_arg( 'service_id', get_the_ID(), $header_detail_page_url );
+                                                        ?>
+                                                        <li><a href="<?php echo esc_url( $header_service_url ); ?>"><?php the_title(); ?></a></li>
+                                                    <?php endwhile; ?>
+                                                </ul>
+                                                <?php wp_reset_postdata(); ?>
+                                            <?php endif; ?>
                                         </li>
+                                        <?php
+                                        $header_projects        = function_exists( 'interior_get_ordered_items' ) ? interior_get_ordered_items( 'interior_project' ) : null;
+                                        $header_project_page_url = function_exists( 'interior_get_template_page_url' ) ? interior_get_template_page_url( 'page-projectDetails.php' ) : home_url( '/project-details/' );
+                                        ?>
                                         <li class="menu-item-has-children">
-                                            <a href="/projects">Projects</a>
-                                            <ul>
-                                                <li><a href="/portfolio">Portfolio Style 1</a></li>
-                                                <li><a href="/portfolio-2">Portfolio Style 2</a></li>
-                                                <li><a href="/portfolio-3">Portfolio Style 3</a></li>
-                                                <li><a href="/portfolio-details">Portfolio Details</a></li>
-                                            </ul>
+                                            <a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">Projects</a>
+                                            <?php if ( $header_projects && $header_projects->have_posts() ) : ?>
+                                                <ul>
+                                                    <?php
+                                                    while ( $header_projects->have_posts() ) :
+                                                        $header_projects->the_post();
+                                                        $header_project_url = add_query_arg( 'project_id', get_the_ID(), $header_project_page_url );
+                                                        ?>
+                                                        <li><a href="<?php echo esc_url( $header_project_url ); ?>"><?php the_title(); ?></a></li>
+                                                    <?php endwhile; ?>
+                                                </ul>
+                                                <?php wp_reset_postdata(); ?>
+                                            <?php endif; ?>
                                         </li>
                                         <!-- <li class="menu-item-has-children">
                                             <a href="blog-grid.html">Blog</a>

@@ -12,80 +12,11 @@ get_header();
 <div id="antra-smooth-wrapper">
         <div id="antra-smooth-content">
 
-        <section class="slider-section overflow-hidden">
-            <div class="antra-slider swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="slider-item">
-                            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/slider-img-1.png' ); ?>"></div>
-                            <div class="container slider-container">
-                                <div class="slider-content-wrap">
-                                    <div class="slider-content">
-                                        <div class="section-heading white-content">
-                                            <h4 class="sub-heading" data-animation="antra-fadeInDown" data-delay="1000ms" data-duration="1400ms">FAST AND RELIABLE</h4>
-                                            <h2 class="section-title cursor-effect" data-animation="antra-fadeInDown" data-delay="1200ms" data-duration="1400ms">The Art of Stunning <br> Interior Design</h2>
-                                        </div>
-                                        <div class="bottom-content">
-                                            <div class="antra-desc" data-animation="antra-fadeInUp" data-delay="1000ms" data-duration="1400ms">
-                                                <p>Whether itâ€™s your home, office, or a commercial <br> project, we are always dedicated to bringing <br> your vision to life.</p>
-                                            </div>
-                                            <div class="antra-btn"  data-animation="antra-fadeInUp" data-delay="1200ms" data-duration="1400ms">
-                                                <a href="contact.html" class="tl-primary-btn white-btn">Take counsel <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slider-element-wrap" data-animation="antra-fadeInRight" data-delay="1300ms" data-duration="1300ms">
-                                <div class="slider-element">
-                                    <h3 class="element-title">260+</h3>
-                                    <span>SuccessfulÂ projects <br> and counting</span>
-                                    <p>Tech Specifications <br>Design Project <br>3D visualisation</p>
-                                </div>
-                                <div class="slider-thumb">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/slider-thumb-1.png' ); ?>" alt="slider">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slider-item">
-                            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/slider-img-2.png' ); ?>"></div>
-                            <div class="container slider-container">
-                                <div class="slider-content-wrap">
-                                    <div class="slider-content">
-                                        <div class="section-heading white-content">
-                                            <h4 class="sub-heading" data-animation="antra-fadeInDown" data-delay="1000ms" data-duration="1400ms">FAST AND RELIABLE</h4>
-                                            <h2 class="section-title cursor-effect" data-animation="antra-fadeInDown" data-delay="1200ms" data-duration="1400ms">The Art of Stunning <br> Interior Design</h2>
-                                        </div>
-                                        <div class="bottom-content">
-                                            <div class="antra-desc" data-animation="antra-fadeInUp" data-delay="1000ms" data-duration="1400ms">
-                                                <p>Whether itâ€™s your home, office, or a commercial <br> project, we are always dedicated to bringing <br> your vision to life.</p>
-                                            </div>
-                                            <div class="antra-btn"  data-animation="antra-fadeInUp" data-delay="1200ms" data-duration="1400ms">
-                                                <a href="contact.html" class="tl-primary-btn white-btn">Take counsel <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slider-element-wrap" data-animation="antra-fadeInRight" data-delay="1300ms" data-duration="1300ms">
-                                <div class="slider-element">
-                                    <h3 class="element-title">260+</h3>
-                                    <span>SuccessfulÂ projects <br> and counting</span>
-                                    <p>Tech Specifications <br>Design Project <br>3D visualisation</p>
-                                </div>
-                                <div class="slider-thumb">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/slider-thumb-1.png' ); ?>" alt="slider">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ slider-section -->
+        <?php interior_render_home_slider_section(); ?>
                 
+        <?php if ( $interior_section = interior_get_home_section_override( 'services' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="service-section pt-150 pb-110 overflow-hidden tl-bg-color fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/service-bg-shape-1.png' ); ?>"></div>
             <div class="container">
@@ -152,7 +83,11 @@ get_header();
             </div>
         </section>
         <!-- ./ service-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'about' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="about-section overflow-hidden">
             <div class="about-bg" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/about-bg.png' ); ?>"></div>
             <div class="about-text"><span>antra</span></div>
@@ -185,7 +120,11 @@ get_header();
             </div>
         </section>
         <!-- ./ about-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'features' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="feature-section pt-150 pb-110 overflow-hidden tl-bg-color fade-wrapper">
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top feature-top">  
@@ -246,7 +185,11 @@ get_header();
             </div>
         </section>
         <!-- ./ feature-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'counter' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="counter-section counter-1">
             <div class="counter-text"><span>antra</span></div>
             <div class="counter-element scroll-area"><img class="scroll-img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/counter-img-1.png' ); ?>" alt="counter"></div>
@@ -284,7 +227,11 @@ get_header();
             </div>
         </section>
         <!-- ./ counter-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'process' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="process-section overflow-hidden fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/process-shape-1.png' ); ?>"></div>
             <div class="container container-2">
@@ -353,7 +300,11 @@ get_header();
             </div>
         </section>
         <!-- ./ process-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'projects' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="project-section pt-130 tl-bg-color fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/project-shape-1.png' ); ?>"></div>
             <div class="project-text"><span>Interior</span></div>
@@ -457,7 +408,11 @@ get_header();
             </div>
         </section>
         <!-- ./ project-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'testimonial' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="testimonial-section pt-150 fade-wrapper">
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top">  
@@ -520,7 +475,11 @@ get_header();
             </div>
         </section>
         <!-- ./ testimonial-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'sponsors' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="sponsor-section sponsor-1 bg-grey pt-120 pb-130 overflow-hidden">
             <div class="container">
                 <div class="sponsor-text-wrap">
@@ -563,6 +522,7 @@ get_header();
             </div>
         </section>
         <!-- ./ sponsor-section -->
+        <?php endif; ?>
 
         <div class="antra-panoroma-area fade-wrapper">
             <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/panoroma-shape-1.png' ); ?>" alt="shape"></div>
@@ -577,6 +537,9 @@ get_header();
             </div>
         </div>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'team' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="team-section bg-grey pt-140 pb-140 tl-bg-color fade-wrapper">
             <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/team-bg-shape-1.png' ); ?>" alt="shape"></div>
             <div class="container container-2">
@@ -667,7 +630,11 @@ get_header();
             </div>
         </section>
         <!-- ./ team-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'video' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="video-section">
             <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/video-bg-1.png' ); ?>"></div>
             <div class="container container-2">
@@ -687,7 +654,11 @@ get_header();
             </div>
         </section>
         <!-- ./ video-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'blog' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="blog-section pt-150 fade-wrapper tl-bg-color">
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top">  
@@ -758,7 +729,11 @@ get_header();
             </div>
         </section>
         <!-- ./ blog-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'gallery' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <div class="gallary-section overflow-hidden">
             <div class="gallary-text"><span>gallery</span></div>
             <div class="gallary-wrap wrap-1">
@@ -794,7 +769,11 @@ get_header();
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_home_section_override( 'newsletter' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="newsletter-section pb-130 overflow-hidden tl-bg-color fade-wrapper">
             <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/newsletter-shape.png' ); ?>" alt="shape"></div>
             <div class="container">
@@ -812,6 +791,7 @@ get_header();
             </div>
         </section>
         <!-- ./ newsletter-section -->
+        <?php endif; ?>
 
         
 <?php

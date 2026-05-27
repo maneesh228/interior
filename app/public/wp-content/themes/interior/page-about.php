@@ -12,6 +12,9 @@ get_header();
 <div id="antra-smooth-wrapper">
         <div id="antra-smooth-content">
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'page_header' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="page-header">
             <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png' ); ?>"></div>
             <div class="overlay"></div>
@@ -23,7 +26,11 @@ get_header();
             </div>
         </section>
         <!-- ./ page-header -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'about_intro' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="about-section-2 pt-130 pb-130">
             <div class="shape-1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/about-shape-1.png' ); ?>" alt="shape"></div>
             <div class="container container-2">
@@ -62,7 +69,11 @@ get_header();
             </div>
         </section>
         <!-- ./ about-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'video' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <div class="video-area-wrap">
             <div class="video-bg" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/video-bg-3.png' ); ?>"></div>
             <div class="play-btn">
@@ -76,7 +87,11 @@ get_header();
             </div>
         </div>
         <!-- ./ video-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'history' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="history-section pt-130 pb-130">
             <div class="history-text"><span>antra</span></div>
             <div class="history-element"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/counter-img-1.png' ); ?>" alt="counter"></div>
@@ -175,7 +190,11 @@ get_header();
             </div>
         </section>
         <!-- ./ history-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'process' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="process-section overflow-hidden bg-white">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/process-shape-1.png' ); ?>"></div>
             <div class="container container-2">
@@ -244,7 +263,11 @@ get_header();
             </div>
         </section>
         <!-- ./ process-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'awards' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="award-section bg-grey pt-130 pb-130">
             <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/team-bg-shape-1.png' ); ?>" alt="shape"></div>
             <div class="container container-2">
@@ -320,7 +343,11 @@ get_header();
             </div>
         </section>
         <!-- ./ award-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'gallery' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="gallary-section-2 pb-130 overflow-hidden">
             <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/gallary-bg-1.png' ); ?>"></div>
             <div class="container container-2">
@@ -370,7 +397,11 @@ get_header();
             </div>
         </section>
         <!-- ./ gallary-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'testimonial' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="testimonial-section bg-white pt-150">
             <div class="container container-2">
                 <div class="row section-heading-wrap">  
@@ -433,7 +464,11 @@ get_header();
             </div>
         </section>
         <!-- ./ testimonial-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'sponsors' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="sponsor-section bg-white pt-120 pb-130 overflow-hidden">
             <div class="container">
                 <div class="sponsor-text-wrap sponsor-text-wrap-2">
@@ -476,7 +511,11 @@ get_header();
             </div>
         </section>
         <!-- ./ sponsor-section -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_about_sections', 'newsletter' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="newsletter-section bg-white pb-130 overflow-hidden">
             <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/newsletter-shape.png' ); ?>" alt="shape"></div>
             <div class="container">
@@ -495,6 +534,7 @@ get_header();
             </div>
         </section>
         <!-- ./ newsletter-section -->
+        <?php endif; ?>
 
         
 <?php

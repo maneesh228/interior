@@ -12,6 +12,9 @@ get_header();
 <div id="antra-smooth-wrapper">
         <div id="antra-smooth-content">
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'page_header' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="page-header">
             <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png' ); ?>"></div>
             <div class="overlay"></div>
@@ -23,7 +26,11 @@ get_header();
             </div>
         </section>
         <!-- ./ page-header -->
+        <?php endif; ?>
 
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'contact' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <section class="contact-section pt-150 pb-150">
             <div class="container container-2">
                 <div class="row section-heading-wrap w-100 ml-0">  
@@ -107,12 +114,17 @@ get_header();
             </div>
         </section>
         <!-- ./ contact-section -->
+        <?php endif; ?>
         
+        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'map' ) ) : ?>
+            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php else : ?>
         <div class="map-wrapper pb-150">
             <div class="container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8826.923787362664!2d-118.27754354757262!3d34.03471770929568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20California%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1566525118697!5m2!1svi!2s" width="100%" height="620" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             </div>
         </div>
+        <?php endif; ?>
 
         
 <?php
