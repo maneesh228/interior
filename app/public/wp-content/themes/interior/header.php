@@ -1,4 +1,9 @@
 ﻿<!doctype html>
+<?php
+$interior_header       = function_exists( 'interior_get_header_data' ) ? interior_get_header_data() : array();
+$interior_header_logo  = ! empty( $interior_header['logo_dark_id'] ) ? wp_get_attachment_image_url( (int) $interior_header['logo_dark_id'], 'full' ) : ( isset( $interior_header['logo_dark_url'] ) ? $interior_header['logo_dark_url'] : get_template_directory_uri() . '/assets/img/logo/logo-2.png' );
+$interior_header_light = ! empty( $interior_header['logo_light_id'] ) ? wp_get_attachment_image_url( (int) $interior_header['logo_light_id'], 'full' ) : ( isset( $interior_header['logo_light_url'] ) ? $interior_header['logo_light_url'] : get_template_directory_uri() . '/assets/img/logo/logo-1.png' );
+?>
 <html <?php language_attributes(); ?> class="no-js">
     <head>
         <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -28,7 +33,7 @@
 
         <!-- preloader -->
         <div class="preloader overflow-hidden">
-            <div class="site-name"><span>ANTRA</span></div>
+            <div class="site-name"><span><?php echo esc_html( $interior_header['preloader_text'] ); ?></span></div>
             <div class="preloader-gutters">
                 <div class="bar">
                     <div class="inner-bar"></div>
@@ -66,24 +71,24 @@
                         <div class="header-left-wrap">
                             <div class="header-logo d-lg-block">
                                 <a href="/">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo/logo-2.png' ); ?>" alt="logo">
+                                    <img src="<?php echo esc_url( $interior_header_logo ); ?>" alt="logo">
                                 </a>
                             </div>
                             <div class="header-menu-wrap">
                                 <div class="mobile-menu-items">
                                     <ul>
-                                        <li>
-                                            <a href="/">Home</a>
-                                        </li>
-                                         <li>
-                                            <a href="/about-us">About Us</a>
-                                        </li>
+                                        <?php if ( ! empty( $interior_header['nav_items'][0]['label'] ) ) : ?>
+                                            <li><a href="<?php echo esc_url( $interior_header['nav_items'][0]['url'] ); ?>"><?php echo esc_html( $interior_header['nav_items'][0]['label'] ); ?></a></li>
+                                        <?php endif; ?>
+                                        <?php if ( ! empty( $interior_header['nav_items'][1]['label'] ) ) : ?>
+                                            <li><a href="<?php echo esc_url( $interior_header['nav_items'][1]['url'] ); ?>"><?php echo esc_html( $interior_header['nav_items'][1]['label'] ); ?></a></li>
+                                        <?php endif; ?>
                                         <?php
                                         $header_services        = function_exists( 'interior_get_ordered_items' ) ? interior_get_ordered_items( 'interior_service' ) : null;
                                         $header_detail_page_url = function_exists( 'interior_get_template_page_url' ) ? interior_get_template_page_url( 'page-serviceDetails.php' ) : home_url( '/service-details/' );
                                         ?>
                                         <li class="menu-item-has-children">
-                                            <a href="<?php echo esc_url( home_url( '/services/' ) ); ?>">Services</a>
+                                            <a href="<?php echo esc_url( $interior_header['services_url'] ); ?>"><?php echo esc_html( $interior_header['services_label'] ); ?></a>
                                             <?php if ( $header_services && $header_services->have_posts() ) : ?>
                                                 <ul>
                                                     <?php
@@ -102,7 +107,7 @@
                                         $header_project_page_url = function_exists( 'interior_get_template_page_url' ) ? interior_get_template_page_url( 'page-projectDetails.php' ) : home_url( '/project-details/' );
                                         ?>
                                         <li class="menu-item-has-children">
-                                            <a href="<?php echo esc_url( home_url( '/projects/' ) ); ?>">Projects</a>
+                                            <a href="<?php echo esc_url( $interior_header['projects_url'] ); ?>"><?php echo esc_html( $interior_header['projects_label'] ); ?></a>
                                             <?php if ( $header_projects && $header_projects->have_posts() ) : ?>
                                                 <ul>
                                                     <?php
@@ -126,23 +131,27 @@
                                                 <li><a href="blog-details.html">Blog Details</a></li>
                                             </ul>
                                         </li> -->
-                                         <li><a href="/media">Media</a></li>
-                                        <li><a href="/contact">Contact</a></li>
+                                        <?php if ( ! empty( $interior_header['nav_items'][2]['label'] ) ) : ?>
+                                            <li><a href="<?php echo esc_url( $interior_header['nav_items'][2]['url'] ); ?>"><?php echo esc_html( $interior_header['nav_items'][2]['label'] ); ?></a></li>
+                                        <?php endif; ?>
+                                        <?php if ( ! empty( $interior_header['nav_items'][3]['label'] ) ) : ?>
+                                            <li><a href="<?php echo esc_url( $interior_header['nav_items'][3]['url'] ); ?>"><?php echo esc_html( $interior_header['nav_items'][3]['label'] ); ?></a></li>
+                                        <?php endif; ?>
                                     </ul>
                                 </div>
                             </div>
                             <!-- /.header-menu-wrap -->
                         </div>
                         <div class="header-right-wrap">
-                            <a href="tel:+480123678900" class="header-contact">
+                            <a href="<?php echo esc_url( $interior_header['phone_url'] ); ?>" class="header-contact">
                                 <span class="icon"><i class="fa-regular fa-phone"></i></span>
                                 <span class="content">
-                                    <span class="call-text">Call Us Phone</span>
-                                    <span class="call-number">(+480) 123 678 900</span>
+                                    <span class="call-text"><?php echo esc_html( $interior_header['phone_label'] ); ?></span>
+                                    <span class="call-number"><?php echo esc_html( $interior_header['phone_number'] ); ?></span>
                                 </span>
                             </a>
                             <div class="header-btn-wrap">
-                                <a href="/contact" class="tl-primary-btn header-btn">Get in Touch</a>
+                                <a href="<?php echo esc_url( $interior_header['button_url'] ); ?>" class="tl-primary-btn header-btn"><?php echo esc_html( $interior_header['button_text'] ); ?></a>
                             </div>
                             <div class="search-icon dl-search-icon">
                                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -169,7 +178,7 @@
         <div id="popup-search-box">
             <div class="box-inner-wrap d-flex align-items-center">
                 <form id="form" action="#" method="get" role="search">
-                    <input id="popup-search" type="text" name="s" placeholder="Type keywords here...">
+                    <input id="popup-search" type="text" name="s" placeholder="<?php echo esc_attr( $interior_header['search_placeholder'] ); ?>">
                 </form>
                 <div class="search-close"><i class="fa-sharp fa-regular fa-xmark"></i></div>
             </div>
@@ -209,51 +218,40 @@
             </button>
             <div class="side-menu-content">
                 <div class="side-menu-logo">
-                    <a class="dark-img" href="index.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo/logo-2.png' ); ?>" alt="logo"></a>
-                    <a class="light-img" href="index.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo/logo-1.png' ); ?>" alt="logo"></a>
+                    <a class="dark-img" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $interior_header_logo ); ?>" alt="logo"></a>
+                    <a class="light-img" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $interior_header_light ); ?>" alt="logo"></a>
                 </div>
                 <div class="side-menu-wrap"></div>
                 <div class="side-menu-about">
-                    <h4 class="title">We Shape Interior Designs, Crafting Timeless and Inspiring Spaces</h4>
+                    <h4 class="title"><?php echo wp_kses_post( $interior_header['side_title'] ); ?></h4>
                 </div>
                 <div class="side-menu-gallary">
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-1.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-1.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-2.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-2.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-3.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-3.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-4.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-4.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-5.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-5.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="side-menu-gallary-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-6.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/sidebar-gallary-6.png' ); ?>" alt="img"></a>
-                    </div>
+                    <?php foreach ( $interior_header['gallery_items'] as $interior_header_gallery_item ) : ?>
+                        <?php $interior_header_gallery_image = ! empty( $interior_header_gallery_item['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_header_gallery_item['image_id'], 'full' ) : $interior_header_gallery_item['image_url']; ?>
+                        <?php if ( $interior_header_gallery_image ) : ?>
+                            <div class="side-menu-gallary-item">
+                                <a href="<?php echo esc_url( $interior_header_gallery_image ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( $interior_header_gallery_image ); ?>" alt="img"></a>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
                 <div class="side-menu-contact">
                     <ul class="side-menu-list">
                         <li>
-                            5609 E Sprague Ave, <br>Spokane Valley, WA 99212,<br> USA
+                            <?php echo wp_kses_post( nl2br( $interior_header['side_address'] ) ); ?>
                         </li>
                         <li>
-                            <a href="tel:+0844560789">+(084) 456-0789</a>
+                            <a href="<?php echo esc_url( $interior_header['side_phone_url'] ); ?>"><?php echo esc_html( $interior_header['side_phone'] ); ?></a>
                         </li>
                         <li>
-                            <a class="mail" href="mailto:support@example.com">support@example.com</a>
+                            <a class="mail" href="<?php echo esc_url( $interior_header['side_email_url'] ); ?>"><?php echo esc_html( $interior_header['side_email'] ); ?></a>
                         </li>
                     </ul>
                 </div>
                 <ul class="side-menu-social">
-                    <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                    <li class="instagram"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    <li class="twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                    <li class="g-plus"><a href="#"><i class="fab fa-fab fa-google-plus"></i></a></li>
+                    <?php foreach ( $interior_header['social_items'] as $interior_header_social ) : ?>
+                        <li><a href="<?php echo esc_url( $interior_header_social['url'] ); ?>" aria-label="<?php echo esc_attr( $interior_header_social['label'] ); ?>"><i class="<?php echo esc_attr( $interior_header_social['icon'] ); ?>"></i></a></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
@@ -263,34 +261,33 @@
         <div class="mobile-side-menu">
             <div class="side-menu-content">
                 <div class="side-menu-head">
-                    <a href="index.html"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo/logo-2.png' ); ?>" alt="logo"></a>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo esc_url( $interior_header_logo ); ?>" alt="logo"></a>
                     <button class="mobile-side-menu-close"><i class="fa-regular fa-xmark"></i></button>
                 </div>
                 <div class="side-menu-wrap"></div>
                 <div class="side-menu-contact">
                     <div class="side-menu-header">
-                        <h3>Contact Us</h3>
+                        <h3><?php echo esc_html( $interior_header['mobile_title'] ); ?></h3>
                     </div>
                     <ul class="side-menu-list">
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            <p>Valentin, Street Road 24, New York, </p>
+                            <p><?php echo wp_kses_post( nl2br( $interior_header['mobile_address'] ) ); ?></p>
                         </li>
                         <li>
                             <i class="fas fa-phone"></i>
-                            <a href="tel:+000123456789">+000 123 (456) 789</a>
+                            <a href="<?php echo esc_url( $interior_header['mobile_phone_url'] ); ?>"><?php echo esc_html( $interior_header['mobile_phone'] ); ?></a>
                         </li>
                         <li>
                             <i class="fas fa-envelope-open-text"></i>
-                            <a href="mailto:antra@gmail.com">antra@gmail.com</a>
+                            <a href="<?php echo esc_url( $interior_header['mobile_email_url'] ); ?>"><?php echo esc_html( $interior_header['mobile_email'] ); ?></a>
                         </li>
                     </ul>
                 </div>
                 <ul class="side-menu-social">
-                    <li class="facebook"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                    <li class="instagram"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    <li class="twitter"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                    <li class="g-plus"><a href="#"><i class="fab fa-fab fa-google-plus"></i></a></li>
+                    <?php foreach ( $interior_header['social_items'] as $interior_header_social ) : ?>
+                        <li><a href="<?php echo esc_url( $interior_header_social['url'] ); ?>" aria-label="<?php echo esc_attr( $interior_header_social['label'] ); ?>"><i class="<?php echo esc_attr( $interior_header_social['icon'] ); ?>"></i></a></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>

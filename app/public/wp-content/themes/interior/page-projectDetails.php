@@ -19,6 +19,8 @@ if ( ! $project || 'interior_project' !== $project->post_type || 'publish' !== $
 
 $projects        = interior_get_ordered_items( 'interior_project' );
 $detail_page_url = interior_get_template_page_url( 'page-projectDetails.php' );
+$project_gallery = $project ? interior_get_project_gallery_items( $project->ID ) : array();
+$project_videos  = $project ? interior_get_project_video_embeds( $project->ID ) : array();
 
 get_header();
 ?>
@@ -76,6 +78,34 @@ get_header();
 								</div>
 								<h1 class="details-title"><?php echo esc_html( get_the_title( $project ) ); ?></h1>
 								<?php echo apply_filters( 'the_content', $project->post_content ); ?>
+								<?php if ( ! empty( $project_gallery ) ) : ?>
+									<div class="project-detail-gallery mt-40">
+										<h3 class="details-title-2"><?php esc_html_e( 'Project Images', 'interior' ); ?></h3>
+										<div class="row gy-4">
+											<?php foreach ( $project_gallery as $project_gallery_item ) : ?>
+												<div class="col-md-6">
+													<a href="<?php echo esc_url( $project_gallery_item['full'] ); ?>" class="venobox" data-gall="project-gallery">
+														<img src="<?php echo esc_url( $project_gallery_item['image'] ); ?>" alt="<?php echo esc_attr( $project_gallery_item['title'] ? $project_gallery_item['title'] : get_the_title( $project ) ); ?>">
+													</a>
+												</div>
+											<?php endforeach; ?>
+										</div>
+									</div>
+								<?php endif; ?>
+								<?php if ( ! empty( $project_videos ) ) : ?>
+									<div class="project-detail-videos mt-40">
+										<h3 class="details-title-2"><?php esc_html_e( 'Project Videos', 'interior' ); ?></h3>
+										<div class="row gy-4">
+											<?php foreach ( $project_videos as $project_video_embed ) : ?>
+												<div class="col-md-6">
+													<div class="ratio ratio-16x9">
+														<iframe src="<?php echo esc_url( $project_video_embed ); ?>" title="<?php echo esc_attr( get_the_title( $project ) ); ?>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+													</div>
+												</div>
+											<?php endforeach; ?>
+										</div>
+									</div>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

@@ -410,68 +410,58 @@ get_header();
         </section>
         <!-- ./ video-section -->
 
-
-        <?php if ( $interior_section = interior_get_home_section_override( 'gallery' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
+        <?php $interior_gallery_items = interior_get_media_gallery_items(); ?>
         <div class="gallary-section overflow-hidden">
             <div class="gallary-text"><span>gallery</span></div>
-            <div class="gallary-wrap wrap-1">
-                <div class="gallery-scroll-wrap">
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-6.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-6.png' ); ?>" alt="img"></a>
+            <?php if ( ! empty( $interior_gallery_items ) ) : ?>
+                <?php
+                $interior_gallery_rows = array_chunk( $interior_gallery_items, max( 1, (int) ceil( count( $interior_gallery_items ) / 2 ) ) );
+                ?>
+                <?php foreach ( $interior_gallery_rows as $interior_gallery_row_index => $interior_gallery_row ) : ?>
+                    <div class="gallary-wrap <?php echo 0 === $interior_gallery_row_index ? 'wrap-1' : 'gallery-scroll-direction-ltr'; ?>">
+                        <div class="gallery-scroll-wrap <?php echo 0 === $interior_gallery_row_index ? '' : 'align-items-start'; ?>">
+                            <?php foreach ( $interior_gallery_row as $interior_gallery_index => $interior_gallery_item ) : ?>
+                                <div class="gallary-scroll-item">
+                                    <a href="<?php echo esc_url( $interior_gallery_item['full'] ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( $interior_gallery_item['image'] ); ?>" alt="<?php echo esc_attr( $interior_gallery_item['title'] ? $interior_gallery_item['title'] : sprintf( 'Gallery image %d', $interior_gallery_index + 1 ) ); ?>"></a>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-7.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-7.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-8.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-8.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-9.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-9.png' ); ?>" alt="img"></a>
-                    </div>
+                <?php endforeach; ?>
+            <?php elseif ( current_user_can( 'edit_pages' ) && interior_get_media_page_id() ) : ?>
+                <div class="container">
+                    <p><?php esc_html_e( 'Add images on the Media page to populate this gallery.', 'interior' ); ?></p>
+                    <a href="<?php echo esc_url( get_edit_post_link( interior_get_media_page_id() ) ); ?>" class="tl-primary-btn"><?php esc_html_e( 'Edit Media Gallery', 'interior' ); ?> <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
                 </div>
-            </div>
-            <div class="gallary-wrap gallery-scroll-direction-ltr">
-                <div class="gallery-scroll-wrap align-items-start">
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-10.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-10.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-11.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-11.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-12.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-12.png' ); ?>" alt="img"></a>
-                    </div>
-                    <div class="gallary-scroll-item">
-                        <a href="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-13.png' ); ?>" class="venobox" data-gall="gallary1"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-13.png' ); ?>" alt="img"></a>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
 
-        <?php if ( $interior_section = interior_get_home_section_override( 'newsletter' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
+        <?php
+        $interior_newsletter       = interior_get_home_newsletter_data( get_queried_object_id() );
+        $interior_newsletter_shape = ! empty( $interior_newsletter['shape_image_id'] ) ? wp_get_attachment_image_url( (int) $interior_newsletter['shape_image_id'], 'full' ) : $interior_newsletter['shape_url'];
+        ?>
         <section class="newsletter-section pb-130 overflow-hidden tl-bg-color fade-wrapper">
-            <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/newsletter-shape.png' ); ?>" alt="shape"></div>
+            <?php if ( $interior_newsletter_shape ) : ?>
+                <div class="bg-shape"><img src="<?php echo esc_url( $interior_newsletter_shape ); ?>" alt="<?php esc_attr_e( 'shape', 'interior' ); ?>"></div>
+            <?php endif; ?>
             <div class="container">
                 <div class="newsletter-wrap">
                     <div class="section-heading text-center fade-top">
-                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Subscribe to the newsletter</h4>
-                        <h2 class="section-title cursor-effect">Join <span>our newsletter <br> stay</span> up to date</h2>
-                        <p class="fade-top">Join our newsletter. Learn something new, gain access to exclusive content, <br> andÂ stayÂ informed with the latest updates in the industry.</p>
+                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_newsletter['subtitle'] ); ?></h4>
+                        <h2 class="section-title cursor-effect"><?php echo wp_kses_post( $interior_newsletter['title'] ); ?></h2>
+                        <p class="fade-top"><?php echo wp_kses_post( $interior_newsletter['description'] ); ?></p>
                     </div>
-                    <div class="newsletter-form fade-top">
-                        <input type="text" id="email" name="email" class="form-control" placeholder="Email address..">
-                        <button type="submit"><i class="fa-regular fa-arrow-right-long"></i></button>
-                    </div>
+                    <form class="newsletter-form interior-newsletter-form fade-top" method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
+                        <input type="email" id="newsletter-email" name="email" class="form-control" placeholder="<?php echo esc_attr( $interior_newsletter['placeholder'] ); ?>" required>
+                        <input type="hidden" name="action" value="interior_newsletter_subscribe">
+                        <input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'interior_newsletter_subscribe' ) ); ?>">
+                        <button type="submit" aria-label="<?php esc_attr_e( 'Subscribe', 'interior' ); ?>"><i class="fa-regular fa-arrow-right-long"></i></button>
+                        <p class="interior-newsletter-message" aria-live="polite"></p>
+                    </form>
                 </div>
             </div>
         </section>
         <!-- ./ newsletter-section -->
-        <?php endif; ?>
 
         
 <?php

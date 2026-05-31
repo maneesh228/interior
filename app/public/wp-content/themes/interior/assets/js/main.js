@@ -238,16 +238,20 @@
 
     // Venobox Video
 
-    function venoboxInit() {}
-    new VenoBox({
-      selector: ".video-popup, .img-popup, .venobox",
-      bgcolor: "transparent",
-      // overlayColor: "transparent",
-      numeration: true,
-      infinigall: true,
-      spinner: "plane",
-    });
-    venoboxInit();
+    function venoboxInit() {
+      if (typeof VenoBox === "undefined") {
+        return;
+      }
+
+      new VenoBox({
+        selector: ".video-popup, .img-popup, .venobox",
+        bgcolor: "transparent",
+        // overlayColor: "transparent",
+        numeration: true,
+        infinigall: true,
+        spinner: "plane",
+      });
+    }
 
     // Data Background
     $("[data-background").each(function () {
@@ -521,6 +525,7 @@
       });
     }
     gallaryScroll();
+    venoboxInit();
 
     // Project Carousel
 
@@ -635,6 +640,14 @@
         nextEl: ".gallary-carousel-wrap .swiper-prev",
         prevEl: ".gallary-carousel-wrap .swiper-next",
       },
+      on: {
+        init: function () {
+          setTimeout(venoboxInit, 0);
+        },
+        breakpoint: function () {
+          setTimeout(venoboxInit, 0);
+        },
+      },
       breakpoints: {
         320: {
           slidesPerView: 1,
@@ -650,6 +663,7 @@
         },
       },
     });
+    venoboxInit();
 
     // Testi Carousel (loop disabled: single-slide markup breaks loop layout and causes horizontal overflow)
     var swiperTesti = new Swiper(".testi-carousel", {
