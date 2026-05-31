@@ -17,6 +17,7 @@ get_header();
         <?php if ( $interior_section = interior_get_home_section_override( 'services' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         <?php else : ?>
+        <?php $interior_services = interior_get_home_services_data(); ?>
         <section class="service-section pt-150 pb-110 overflow-hidden tl-bg-color fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/service-bg-shape-1.png' ); ?>"></div>
             <div class="container">
@@ -24,61 +25,34 @@ get_header();
                     <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
                     <div class="col-lg-4 col-md-12">
                         <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">WHO We Are</h4>
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_services['subtitle'] ); ?></h4>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-12">
                         <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect">Experience <span>the art of Interior</span> Design</h2>
-                            <p class="mb-0">We specialize in transforming visions into reality. <br> Explore our portfolio of innovative architectural and interior design projects <br> crafted with precision.</p>
+                            <h2 class="section-title cursor-effect"><?php echo wp_kses_post( $interior_services['title'] ); ?></h2>
+                            <p class="mb-0"><?php echo wp_kses_post( $interior_services['description'] ); ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="row gy-xl-0 gy-4">
+                    <?php foreach ( $interior_services['items'] as $interior_service ) : ?>
+                        <?php
+                        $interior_service_icon = ! empty( $interior_service['icon_id'] ) ? wp_get_attachment_image_url( (int) $interior_service['icon_id'], 'thumbnail' ) : '';
+                        $interior_service_icon = $interior_service_icon ? $interior_service_icon : $interior_service['icon_url'];
+                        ?>
                     <div class="col-xl-3 col-lg-6 col-md-12">
-                        <div class="service-item slide-anim" data-delay="0.3" data-offset="100" data-direction="left">
+                        <div class="service-item slide-anim" data-delay="0.3" data-offset="100" data-direction="<?php echo esc_attr( $interior_service['direction'] ); ?>">
                             <div class="service-top">
-                                <h3 class="title"><a href="service-details.html">Architectural <br> Design</a></h3>
+                                <h3 class="title"><a href="<?php echo esc_url( $interior_service['url'] ); ?>"><?php echo wp_kses_post( $interior_service['title'] ); ?></a></h3>
                                 <div class="icon">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/service-icon-1.png' ); ?>" alt="service">
+                                    <img src="<?php echo esc_url( $interior_service_icon ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $interior_service['title'] ) ); ?>">
                                 </div>
                             </div>
-                            <p>Dream it, weâ€™ll design it! From big picture layouts to the tiniest details, our architectural magic brings your ideas to life with creativity and precision!</p>
+                            <p><?php echo wp_kses_post( $interior_service['description'] ); ?></p>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12">
-                        <div class="service-item slide-anim" data-delay="0.3" data-offset="100" data-direction="bottom">
-                            <div class="service-top">
-                                <h3 class="title"><a href="service-details.html">Interior Design <br> & Planning</a></h3>
-                                <div class="icon">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/service-icon-2.png' ); ?>" alt="service">
-                                </div>
-                            </div>
-                            <p>Dream it, weâ€™ll design it! From big picture layouts to the tiniest details, our architectural magic brings your ideas to life with creativity and precision!</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12">
-                        <div class="service-item slide-anim" data-delay="0.3" data-offset="100" data-direction="bottom">
-                            <div class="service-top">
-                                <h3 class="title"><a href="service-details.html">Consulting <br> Services</a></h3>
-                                <div class="icon">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/service-icon-3.png' ); ?>" alt="service">
-                                </div>
-                            </div>
-                            <p>Dream it, weâ€™ll design it! From big picture layouts to the tiniest details, our architectural magic brings your ideas to life with creativity and precision!</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12">
-                        <div class="service-item slide-anim" data-delay="0.3" data-offset="100" data-direction="right">
-                            <div class="service-top">
-                                <h3 class="title"><a href="service-details.html">Project <br> Management</a></h3>
-                                <div class="icon">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/service-icon-4.png' ); ?>" alt="service">
-                                </div>
-                            </div>
-                            <p>Dream it, weâ€™ll design it! From big picture layouts to the tiniest details, our architectural magic brings your ideas to life with creativity and precision!</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -88,32 +62,38 @@ get_header();
         <?php if ( $interior_section = interior_get_home_section_override( 'about' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         <?php else : ?>
+        <?php
+        $interior_about       = interior_get_home_about_data();
+        $interior_about_image = ! empty( $interior_about['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_about['image_id'], 'large' ) : '';
+        $interior_about_image = $interior_about_image ? $interior_about_image : $interior_about['image_url'];
+        ?>
         <section class="about-section overflow-hidden">
             <div class="about-bg" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/about-bg.png' ); ?>"></div>
-            <div class="about-text"><span>antra</span></div>
+            <div class="about-text"><span><?php echo esc_html( $interior_about['background_text'] ); ?></span></div>
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="about-content white-content slide-anim" data-delay="0.3" data-offset="100" data-direction="left">
                             <div class="section-heading white-content mb-30">
-                                <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Started In 1991</h4>
-                                <h2 class="section-title cursor-effect">Where Spaces <br> Inspire, and <span>Design <br> Comes Alive</span></h2>
+                                <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_about['subtitle'] ); ?></h4>
+                                <h2 class="section-title cursor-effect"><?php echo wp_kses_post( $interior_about['title'] ); ?></h2>
                             </div>
                             <ul class="about-list">
-                                <li><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/about-1.png' ); ?>" alt="about">Latest technologies</li>
-                                <li><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/about-1.png' ); ?>" alt="about">High-Quality Designs</li>
-                                <li><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/about-1.png' ); ?>" alt="about">5 Years Warranty</li>
-                                <li><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/icon/about-1.png' ); ?>" alt="about">Residential Design</li>
+                                <?php foreach ( $interior_about['items'] as $interior_about_item ) : ?>
+                                <li><img src="<?php echo esc_url( $interior_about['icon_url'] ); ?>" alt="about"><?php echo esc_html( $interior_about_item ); ?></li>
+                                <?php endforeach; ?>
                             </ul>
-                            <p>Whether itâ€™s your home, office, or a commercial project, we are always dedicated to bringing your vision to life.Our numbers speak better than words:</p>
-                            <div class="about-btn">
-                                <a href="about.html" class="tl-primary-btn white-btn">More About Us <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
-                            </div>
+                            <p><?php echo wp_kses_post( $interior_about['description'] ); ?></p>
+                            <?php if ( ! empty( $interior_about['button_text'] ) ) : ?>
+                                <div class="about-btn">
+                                    <a href="<?php echo esc_url( $interior_about['button_url'] ); ?>" class="tl-primary-btn white-btn"><?php echo esc_html( $interior_about['button_text'] ); ?> <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="about-img slide-anim" data-delay="0.3" data-offset="100" data-direction="right">
-                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/about-img-1.png' ); ?>" alt="about">
+                            <img src="<?php echo esc_url( $interior_about_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $interior_about['title'] ) ); ?>">
                         </div>
                     </div>
                 </div>
@@ -125,63 +105,74 @@ get_header();
         <?php if ( $interior_section = interior_get_home_section_override( 'features' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         <?php else : ?>
+        <?php
+        $interior_features        = interior_get_home_features_data();
+        $interior_feature_services = interior_get_latest_services( 5 );
+        $interior_detail_page_url = interior_get_template_page_url( 'page-serviceDetails.php' );
+        $interior_first_feature   = array(
+            'image' => get_template_directory_uri() . '/assets/img/service/feature-img-1.png',
+            'text'  => '',
+        );
+        ?>
         <section class="feature-section pt-150 pb-110 overflow-hidden tl-bg-color fade-wrapper">
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top feature-top">  
                     <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
                     <div class="col-lg-4 col-md-12">
                         <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">WHO We Are</h4>
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_features['subtitle'] ); ?></h4>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-12">
                         <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect title-2">Explore our <span>comprehensive <br> interior design</span> services</h2>
-                            <p class="mb-0">We specialize in transforming visions into reality. Explore our portfolio of innovative architectural and interior design projects crafted with precision.</p>
+                            <h2 class="section-title cursor-effect title-2"><?php echo wp_kses_post( $interior_features['title'] ); ?></h2>
+                            <p class="mb-0"><?php echo wp_kses_post( $interior_features['description'] ); ?></p>
                         </div>
                     </div>
                 </div>
+                <?php if ( $interior_feature_services->have_posts() ) : ?>
+                    <?php
+                    $interior_first_service_id       = $interior_feature_services->posts[0]->ID;
+                    $interior_first_feature['image'] = interior_get_item_image_url( $interior_first_service_id, 'large' );
+                    $interior_first_feature['text']  = interior_get_item_summary( $interior_first_service_id );
+                    ?>
                 <div class="row fade-top">
                     <div class="col-lg-6">
                         <div class="feature-item-imgs">
                             <div class="feature-img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-1.png' ); ?>" alt="feature">
+                                <img src="<?php echo esc_url( $interior_first_feature['image'] ); ?>" alt="feature">
                                 <div class="img-content">
-                                    <p>Tailored design services for private homes, including room makeovers and complete home transformations.</p>
+                                    <p><?php echo esc_html( $interior_first_feature['text'] ); ?></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="feature-item-list feature-item-list-1">
-                            <div class="feature-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-1.png' ); ?>" data-text="Tailored design services for private homes, including room makeovers and complete home transformations.">
-                                <span class="number">01</span>
-                                <h3 class="title"><a href="service-details.html">Residential Interior Design</a></h3>
-                                <a href="service-details.html" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
+                            <?php
+                            while ( $interior_feature_services->have_posts() ) :
+                                $interior_feature_services->the_post();
+                                $interior_service_image = interior_get_item_image_url( get_the_ID(), 'large' );
+                                $interior_service_text  = interior_get_item_summary( get_the_ID() );
+                                $interior_service_url   = add_query_arg( 'service_id', get_the_ID(), $interior_detail_page_url );
+                                ?>
+                            <div class="feature-item" data-img="<?php echo esc_url( $interior_service_image ); ?>" data-text="<?php echo esc_attr( $interior_service_text ); ?>">
+                                <span class="number"><?php echo esc_html( str_pad( $interior_feature_services->current_post + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
+                                <h3 class="title"><a href="<?php echo esc_url( $interior_service_url ); ?>"><?php the_title(); ?></a></h3>
+                                <a href="<?php echo esc_url( $interior_service_url ); ?>" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
                             </div>
-                            <div class="feature-item"  data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-2.png' ); ?>" data-text="Extending design services to outdoor spaces such as gardens, patios, and decks.">
-                                <span class="number">02</span>
-                                <h3 class="title"><a href="service-details.html">Commercial Interior Design</a></h3>
-                                <a href="service-details.html" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
-                            </div>
-                            <div class="feature-item"  data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-3.png' ); ?>" data-text="Providing professional advice on concepts, color schemes & material selection.">
-                                <span class="number">03</span>
-                                <h3 class="title"><a href="service-details.html">Interior Design Consultation</a></h3>
-                                <a href="service-details.html" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
-                            </div>
-                            <div class="feature-item"  data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-4.png' ); ?>" data-text="Designing functional and attractive interiors for businesses, including offices, retail spaces, and hospitality venues.">
-                                <span class="number">04</span>
-                                <h3 class="title"><a href="service-details.html">Outdoor & Landscape Design</a></h3>
-                                <a href="service-details.html" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
-                            </div>
-                            <div class="feature-item"  data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/service/feature-img-5.png' ); ?>" data-text="Overhauling existing spaces to modernize and improve functionality and aesthetics.">
-                                <span class="number">05</span>
-                                <h3 class="title"><a href="service-details.html">Renovation and Remodeling</a></h3>
-                                <a href="service-details.html" class="arrow"><i class="fa-regular fa-arrow-right"></i></a>
-                            </div>
+                            <?php endwhile; ?>
+                            <?php wp_reset_postdata(); ?>
                         </div>
                     </div>
                 </div>
+                <?php else : ?>
+                <div class="row fade-top">
+                    <div class="col-12">
+                        <p><?php esc_html_e( 'No services have been added yet.', 'interior' ); ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
             </div>
         </section>
         <!-- ./ feature-section -->
@@ -190,39 +181,25 @@ get_header();
         <?php if ( $interior_section = interior_get_home_section_override( 'counter' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         <?php else : ?>
+        <?php
+        $interior_counter       = interior_get_home_counter_data();
+        $interior_counter_image = ! empty( $interior_counter['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_counter['image_id'], 'large' ) : '';
+        $interior_counter_image = $interior_counter_image ? $interior_counter_image : $interior_counter['image_url'];
+        ?>
         <section class="counter-section counter-1">
-            <div class="counter-text"><span>antra</span></div>
-            <div class="counter-element scroll-area"><img class="scroll-img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/counter-img-1.png' ); ?>" alt="counter"></div>
+            <div class="counter-text"><span><?php echo esc_html( $interior_counter['background_text'] ); ?></span></div>
+            <div class="counter-element scroll-area"><img class="scroll-img" src="<?php echo esc_url( $interior_counter_image ); ?>" alt="counter"></div>
             <div class="container container-2">
                 <div class="row gy-5 fade-wrapper">
+                    <?php foreach ( $interior_counter['items'] as $interior_counter_item ) : ?>
                     <div class="col-lg-3 col-md-6 fade-top">
                         <div class="counter-item">
-                            <h3 class="title"><span class="odometer" data-count="22">0</span><span class="icon">+</span></h3>
-                            <h4 class="sub-title">Years experience</h4>
-                            <p>Improving homes with expert <br> craftsmanship for years</p>
+                            <h3 class="title"><span class="odometer" data-count="<?php echo esc_attr( $interior_counter_item['number'] ); ?>">0</span><span class="icon"><?php echo esc_html( $interior_counter_item['suffix'] ); ?></span></h3>
+                            <h4 class="sub-title"><?php echo esc_html( $interior_counter_item['title'] ); ?></h4>
+                            <p><?php echo wp_kses_post( $interior_counter_item['description'] ); ?></p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 fade-top">
-                        <div class="counter-item">
-                            <h3 class="title"><span class="odometer" data-count="189">0</span><span class="icon">+</span></h3>
-                            <h4 class="sub-title">Projects completed</h4>
-                            <p>Improving homes with expert <br> craftsmanship for years</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 fade-top">
-                        <div class="counter-item">
-                            <h3 class="title"><span class="odometer" data-count="265">0</span><span class="icon">+</span></h3>
-                            <h4 class="sub-title">Skilled Tradespeople</h4>
-                            <p>Improving homes with expert <br> craftsmanship for years</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 fade-top">
-                        <div class="counter-item">
-                            <h3 class="title"><span class="odometer" data-count="328">0</span><span class="icon">+</span></h3>
-                            <h4 class="sub-title">Client satisfaction</h4>
-                            <p>Improving homes with expert <br> craftsmanship for years</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -232,213 +209,144 @@ get_header();
         <?php if ( $interior_section = interior_get_home_section_override( 'process' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         <?php else : ?>
+        <?php $interior_process = interior_get_home_process_data(); ?>
         <section class="process-section overflow-hidden fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/process-shape-1.png' ); ?>"></div>
             <div class="container container-2">
                 <div class="heading-space align-items-end">
                     <div class="section-heading mb-0">
-                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">How We Work</h4>
-                        <h2 class="section-title cursor-effect title-2">Description <span>Architecture <br> process</span> for exceptional <br> results.</h2>
+                        <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_process['subtitle'] ); ?></h4>
+                        <h2 class="section-title cursor-effect title-2"><?php echo wp_kses_post( $interior_process['title'] ); ?></h2>
                     </div>
                     <div class="process-desc">
-                        <p class="mb-0">Our process is alive - adapting, refining, and growing <br> with your vision. Always. <br> Like artists with a blank canvas, we transform rooms <br> into living works of art.</p>
+                        <p class="mb-0"><?php echo wp_kses_post( $interior_process['description'] ); ?></p>
                     </div>
                 </div>
                 <div class="row gy-xl-0 gy-4 process-wrap fade-wrapper">
+                    <?php foreach ( $interior_process['items'] as $interior_process_index => $interior_process_item ) : ?>
+                        <?php
+                        $interior_process_number = str_pad( $interior_process_index + 1, 2, '0', STR_PAD_LEFT );
+                        $interior_process_image  = ! empty( $interior_process_item['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_process_item['image_id'], 'large' ) : '';
+                        $interior_process_image  = $interior_process_image ? $interior_process_image : $interior_process_item['image_url'];
+                        ?>
                     <div class="col-xl-3 col-lg-6 col-md-6">
                         <div class="process-item fade-top">
                             <div class="process-thumb">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-1.png' ); ?>" alt="process">
+                                <img src="<?php echo esc_url( $interior_process_image ); ?>" alt="<?php echo esc_attr( $interior_process_item['title'] ); ?>">
                             </div>
                             <div class="process-content">
-                                <h3 class="title"><span>01</span>. Initial Consultation</h3>
-                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
+                                <h3 class="title"><span><?php echo esc_html( $interior_process_number ); ?></span>. <?php echo esc_html( $interior_process_item['title'] ); ?></h3>
+                                <p><?php echo wp_kses_post( $interior_process_item['description'] ); ?></p>
                             </div>
-                            <span class="number">01</span>
+                            <span class="number"><?php echo esc_html( $interior_process_number ); ?></span>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="process-item fade-top">
-                            <div class="process-thumb">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-2.png' ); ?>" alt="process">
-                            </div>
-                            <div class="process-content">
-                                <h3 class="title"><span>02</span>. Design & Planning</h3>
-                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
-                            </div>
-                            <span class="number">02</span>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="process-item fade-top">
-                            <div class="process-thumb">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-3.png' ); ?>" alt="process">
-                            </div>
-                            <div class="process-content">
-                                <h3 class="title"><span>03</span>. Implementation</h3>
-                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
-                            </div>
-                            <span class="number">03</span>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="process-item fade-top">
-                            <div class="process-thumb">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/process-img-4.png' ); ?>" alt="process">
-                            </div>
-                            <div class="process-content">
-                                <h3 class="title"><span>04</span>. Project Handover</h3>
-                                <p>We begin by understanding <br> your vision, goals, and needs, <br> followed Antra.</p>
-                            </div>
-                            <span class="number">04</span>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="process-text">
-                    <h5 class="bottom-text">Weâ€™ve been working hard to impress you. <a href="contact.html">Start yourâ€™s today</a></h5>
+                    <h5 class="bottom-text"><?php echo esc_html( $interior_process['bottom_text'] ); ?> <a href="<?php echo esc_url( $interior_process['link_url'] ); ?>"><?php echo esc_html( $interior_process['link_text'] ); ?></a></h5>
                 </div>
             </div>
         </section>
         <!-- ./ process-section -->
         <?php endif; ?>
 
-        <?php if ( $interior_section = interior_get_home_section_override( 'projects' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
+        <?php
+        $interior_projects          = interior_get_home_projects_data();
+        $interior_latest_projects   = interior_get_latest_projects( 3 );
+        $interior_project_page_url  = interior_get_template_page_url( 'page-projectDetails.php' );
+        ?>
         <section class="project-section pt-130 tl-bg-color fade-wrapper">
             <div class="bg-shape" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/project-shape-1.png' ); ?>"></div>
-            <div class="project-text"><span>Interior</span></div>
+            <div class="project-text"><span><?php echo esc_html( $interior_projects['background_text'] ); ?></span></div>
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top">  
                     <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
                     <div class="col-lg-4 col-md-12">
                         <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Our Projects</h4>
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_projects['subtitle'] ); ?></h4>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-12">
                         <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect title-2">Creative <span>projects that <br> define</span> our style</h2>
-                            <p class="mb-0">Our portfolio showcases a diverse range of projects, from beautifully crafted <br> residential spaces functional and stylish commercial interiors</p>
+                            <h2 class="section-title cursor-effect title-2"><?php echo wp_kses_post( $interior_projects['title'] ); ?></h2>
+                            <p class="mb-0"><?php echo wp_kses_post( $interior_projects['description'] ); ?></p>
                         </div>
                     </div>
                 </div>
-                <div class="project-carousel swiper fade-top">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="project-item">
-                                <div class="project-img">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-1.png' ); ?>" alt="project">
-                                    <ul>
-                                        <li><a href="portfolio-details.html">Residential</a></li>
-                                        <li><a href="portfolio-details.html">Single Home</a></li>
-                                    </ul>
+                <?php if ( $interior_latest_projects->have_posts() ) : ?>
+                    <div class="project-carousel swiper fade-top">
+                        <div class="swiper-wrapper">
+                            <?php
+                            while ( $interior_latest_projects->have_posts() ) :
+                                $interior_latest_projects->the_post();
+                                $interior_project_url     = add_query_arg( 'project_id', get_the_ID(), $interior_project_page_url );
+                                $interior_project_summary = interior_get_item_summary( get_the_ID() );
+                                ?>
+                                <div class="swiper-slide">
+                                    <div class="project-item">
+                                        <div class="project-img">
+                                            <a href="<?php echo esc_url( $interior_project_url ); ?>"><img src="<?php echo esc_url( interior_get_item_image_url( get_the_ID(), 'large' ) ); ?>" alt="<?php the_title_attribute(); ?>"></a>
+                                        </div>
+                                        <div class="project-content">
+                                            <h3 class="title"><a href="<?php echo esc_url( $interior_project_url ); ?>"><?php the_title(); ?></a></h3>
+                                            <?php if ( $interior_project_summary ) : ?>
+                                                <span><?php echo esc_html( $interior_project_summary ); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="project-content">
-                                    <h3 class="title"><a href="portfolio-details.html">Luxury Skyline</a></h3>
-                                    <span>Berlin, Germany <br>2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="project-item">
-                                <div class="project-img">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-2.png' ); ?>" alt="project">
-                                    <ul>
-                                        <li><a href="portfolio-details.html">Residential</a></li>
-                                        <li><a href="portfolio-details.html">Single Home</a></li>
-                                    </ul>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="title"><a href="portfolio-details.html">Bohemian Rhapsody</a></h3>
-                                    <span>Berlin, Germany <br>2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="project-item">
-                                <div class="project-img">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-3.png' ); ?>" alt="project">
-                                    <ul>
-                                        <li><a href="portfolio-details.html">Residential</a></li>
-                                        <li><a href="portfolio-details.html">Single Home</a></li>
-                                    </ul>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="title"><a href="portfolio-details.html">Vintage Glamour</a></h3>
-                                    <span>Berlin, Germany <br>2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="project-item">
-                                <div class="project-img">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-4.png' ); ?>" alt="project">
-                                    <ul>
-                                        <li><a href="portfolio-details.html">Residential</a></li>
-                                        <li><a href="portfolio-details.html">Single Home</a></li>
-                                    </ul>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="title"><a href="portfolio-details.html">Titan Office Interior </a></h3>
-                                    <span>Berlin, Germany <br>2025</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="project-item">
-                                <div class="project-img">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/project/project-img-5.png' ); ?>" alt="project">
-                                    <ul>
-                                        <li><a href="portfolio-details.html">Residential</a></li>
-                                        <li><a href="portfolio-details.html">Single Home</a></li>
-                                    </ul>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="title"><a href="portfolio-details.html">Living Innovation</a></h3>
-                                    <span>Berlin, Germany <br>2025</span>
-                                </div>
-                            </div>
+                            <?php endwhile; ?>
+                            <?php wp_reset_postdata(); ?>
                         </div>
                     </div>
-                </div>
+                <?php else : ?>
+                    <div class="row fade-top">
+                        <div class="col-12">
+                            <p><?php esc_html_e( 'No projects have been added yet.', 'interior' ); ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="project-house-img">
                 <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/project-house.png' ); ?>" alt="img">
             </div>
         </section>
         <!-- ./ project-section -->
-        <?php endif; ?>
 
-        <?php if ( $interior_section = interior_get_home_section_override( 'testimonial' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
+        <?php
+        $interior_testimonial              = interior_get_home_testimonial_data();
+        $interior_testimonial_image        = ! empty( $interior_testimonial['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_testimonial['image_id'], 'large' ) : '';
+        $interior_testimonial_image        = $interior_testimonial_image ? $interior_testimonial_image : $interior_testimonial['image_url'];
+        $interior_testimonial_author_image = ! empty( $interior_testimonial['author_image_id'] ) ? wp_get_attachment_image_url( (int) $interior_testimonial['author_image_id'], 'thumbnail' ) : '';
+        $interior_testimonial_author_image = $interior_testimonial_author_image ? $interior_testimonial_author_image : $interior_testimonial['author_image_url'];
+        ?>
         <section class="testimonial-section pt-150 fade-wrapper">
             <div class="container container-2">
                 <div class="row section-heading-wrap fade-top">  
                     <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
                     <div class="col-lg-4 col-md-12">
                         <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">Owr clients say</h4>
+                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_testimonial['subtitle'] ); ?></h4>
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-12">
                         <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect title-2">Hereâ€™s What <span>warm words <br> our clients</span> say</h2>
+                            <h2 class="section-title cursor-effect title-2"><?php echo wp_kses_post( $interior_testimonial['title'] ); ?></h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="testi-img slide-anim" data-delay="0.3" data-offset="100" data-direction="left">
-                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/testi/testi-img-1.png' ); ?>" alt="testi">
+                            <img src="<?php echo esc_url( $interior_testimonial_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $interior_testimonial['title'] ) ); ?>">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="testi-carousel-wrap slide-anim" data-delay="0.3" data-offset="100" data-direction="right">
                             <div class="testi-top-content">
                                 <div class="left-content">
-                                    <h3 class="rating">4.80</h3>
+                                    <h3 class="rating"><?php echo esc_html( $interior_testimonial['rating'] ); ?></h3>
                                     <div class="rating-list">
                                         <ul>
                                             <li><i class="fa-solid fa-star"></i></li>
@@ -447,23 +355,23 @@ get_header();
                                             <li><i class="fa-solid fa-star"></i></li>
                                             <li><i class="fa-solid fa-star"></i></li>
                                         </ul>
-                                        <span>2,688 reviews</span>
+                                        <span><?php echo esc_html( $interior_testimonial['reviews'] ); ?></span>
                                     </div>
                                 </div>
                                 <div class="right-content">
-                                    <p>From concept to reality, the team turned my <br> vision into a stunning, livable space. I couldnâ€™t <br> be happier with this!</p>
+                                    <p><?php echo wp_kses_post( $interior_testimonial['intro'] ); ?></p>
                                 </div>
                             </div>
                             <div class="testi-carousel swiper">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="testi-item">
-                                            <p>â€œA wonderful experience! They knew what they were doing and were incredibly knowledgeable throughout the process."</p>
+                                            <p><?php echo wp_kses_post( $interior_testimonial['quote'] ); ?></p>
                                             <div class="testi-author">
                                                 <div class="author-img">
-                                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/testi/testi-author-1.png' ); ?>" alt="author">
+                                                    <img src="<?php echo esc_url( $interior_testimonial_author_image ); ?>" alt="<?php echo esc_attr( $interior_testimonial['author_name'] ); ?>">
                                                 </div>
-                                                <h4 class="name">Morgan Dufresne <span>Company Owner</span></h4>
+                                                <h4 class="name"><?php echo esc_html( $interior_testimonial['author_name'] ); ?> <span><?php echo esc_html( $interior_testimonial['author_position'] ); ?></span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -475,261 +383,33 @@ get_header();
             </div>
         </section>
         <!-- ./ testimonial-section -->
-        <?php endif; ?>
 
-        <?php if ( $interior_section = interior_get_home_section_override( 'sponsors' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="sponsor-section sponsor-1 bg-grey pt-120 pb-130 overflow-hidden">
-            <div class="container">
-                <div class="sponsor-text-wrap">
-                    <h5 class="sponsor-text">Our WebsiteÂ <span>75000</span>+Â VIP Customer</h5>
-                </div>
-                <div class="sponsor-carousel swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-1.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-2.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-3.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-4.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-5.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-item">
-                                <a href="#"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/sponsor/sponsor-6.png' ); ?>" alt="sponsor"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ sponsor-section -->
-        <?php endif; ?>
-
-        <div class="antra-panoroma-area fade-wrapper">
-            <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/panoroma-shape-1.png' ); ?>" alt="shape"></div>
-            <div class="container">
+        <?php $interior_video = interior_get_home_video_data(); ?>
+        <section class="video-section pt-130 pb-130 tl-bg-color fade-wrapper">
+            <div class="container container-2">
                 <div class="section-heading text-center align-items-center fade-top">
-                    <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">360-degree panoramas</h4>
-                    <h2 class="section-title cursor-effect title-2">Create an even <span>greater <br>experience</span></h2>
+                    <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_video['subtitle'] ); ?></h4>
+                    <h2 class="section-title cursor-effect title-2"><?php echo wp_kses_post( $interior_video['title'] ); ?></h2>
                 </div>
-            </div>
-            <div class="antra-panoroma-container container fade-top">
-                <div class="antra-panoroma-img" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/virtual-tours.jpg' ); ?>"></div>
-            </div>
-        </div>
-
-        <?php if ( $interior_section = interior_get_home_section_override( 'team' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="team-section bg-grey pt-140 pb-140 tl-bg-color fade-wrapper">
-            <div class="bg-shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/team-bg-shape-1.png' ); ?>" alt="shape"></div>
-            <div class="container container-2">
-                <div class="row section-heading-wrap fade-top">  
-                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">amazing design team</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect title-2">Meet the <span>Experts Our <br> interior</span> designers</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row team-wrap">
-                    <div class="col-lg-4">
-                        <div class="team-img slide-anim" data-delay="0.3" data-offset="100" data-direction="left">
-                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-1.png' ); ?>" alt="img">
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="team-item-list slide-anim" data-delay="0.3" data-offset="100" data-direction="left">
-                            <div class="team-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-1.png' ); ?>">
-                                <div class="left-content">
-                                    <span class="number">01</span>
-                                    <h3 class="title"><a href="team-details.html">Mark Jackson</a></h3>
-                                </div>
-                                <div class="mid-content">
-                                    <span>Exhibition designer</span>
-                                </div>
-                                <div class="arrow">
-                                    <a href="team-details.html"><i class="fa-solid fa-arrow-right"></i></a>
+                <div class="row gy-4 fade-top">
+                    <?php foreach ( $interior_video['items'] as $interior_video_index => $interior_video_item ) : ?>
+                        <?php
+                        $interior_video_image = ! empty( $interior_video_item['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_video_item['image_id'], 'large' ) : '';
+                        $interior_video_image = $interior_video_image ? $interior_video_image : $interior_video_item['image_url'];
+                        ?>
+                        <?php if ( $interior_video_image ) : ?>
+                            <div class="col-lg-6">
+                                <div class="video-img">
+                                    <img src="<?php echo esc_url( $interior_video_image ); ?>" alt="<?php echo esc_attr( sprintf( 'Video section image %d', $interior_video_index + 1 ) ); ?>">
                                 </div>
                             </div>
-                            <div class="team-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-2.png' ); ?>">
-                                <div class="left-content">
-                                    <span class="number">02</span>
-                                    <h3 class="title"><a href="team-details.html">Valeria Novikova</a></h3>
-                                </div>
-                                <div class="mid-content">
-                                    <span>Exhibition designer</span>
-                                </div>
-                                <div class="arrow">
-                                    <a href="team-details.html"><i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-3.png' ); ?>">
-                                <div class="left-content">
-                                    <span class="number">03</span>
-                                    <h3 class="title"><a href="team-details.html">Alex Podzemsky</a></h3>
-                                </div>
-                                <div class="mid-content">
-                                    <span>Exhibition designer</span>
-                                </div>
-                                <div class="arrow">
-                                    <a href="team-details.html"><i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-4.png' ); ?>">
-                                <div class="left-content">
-                                    <span class="number">04</span>
-                                    <h3 class="title"><a href="team-details.html">Helen Reeves</a></h3>
-                                </div>
-                                <div class="mid-content">
-                                    <span>Exhibition designer</span>
-                                </div>
-                                <div class="arrow">
-                                    <a href="team-details.html"><i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-item" data-img="<?php echo esc_url( get_template_directory_uri() . '/assets/img/team/team-img-5.png' ); ?>">
-                                <div class="left-content">
-                                    <span class="number">05</span>
-                                    <h3 class="title"><a href="team-details.html">Jake Nicholson</a></h3>
-                                </div>
-                                <div class="mid-content">
-                                    <span>Exhibition designer</span>
-                                </div>
-                                <div class="arrow">
-                                    <a href="team-details.html"><i class="fa-solid fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ team-section -->
-        <?php endif; ?>
-
-        <?php if ( $interior_section = interior_get_home_section_override( 'video' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="video-section">
-            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/video-bg-1.png' ); ?>"></div>
-            <div class="container container-2">
-                <div class="video-content">
-                    <div class="play-btn">
-                        <a
-                            class="video-popup venobox"
-                            data-autoplay="true"
-                            data-vbtype="video"
-                            href="https://youtu.be/JwC-Qx1lJso">
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                    </div>
-                    <h2 class="video-title">Unlock Your Dream <br> Home Today!</h2>
-                    <p>We encourage clients to actively participate in discussions, share their ideas, preferences, and feedback.</p>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
         <!-- ./ video-section -->
-        <?php endif; ?>
 
-        <?php if ( $interior_section = interior_get_home_section_override( 'blog' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="blog-section pt-150 fade-wrapper tl-bg-color">
-            <div class="container container-2">
-                <div class="row section-heading-wrap fade-top">  
-                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">amazing design team</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title cursor-effect title-2">Meet the <span>Experts Our <br> interior</span> designers</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="blog-carousel swiper fade-top">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="post-card">
-                                <div class="post-thumb">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog/post-1.jpg' ); ?>" alt="post">
-                                    <span class="category">exteriors</span>
-                                </div>
-                                <div class="post-content">
-                                    <ul class="post-meta">
-                                        <li>Dec 25, 2025</li>
-                                        <li>By <span>Admin</span></li>
-                                    </ul>
-                                    <h3 class="title"><a href="blog-details.html">Four Ways for Creating Extra Space in Small Homes</a></h3>
-                                    <p>Modest, recently established interior design company that seeks to address a variety of topics, includingâ€¦</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="post-card">
-                                <div class="post-thumb">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog/post-2.png' ); ?>" alt="post">
-                                    <span class="category">exteriors</span>
-                                </div>
-                                <div class="post-content">
-                                    <ul class="post-meta">
-                                        <li>Dec 25, 2025</li>
-                                        <li>By <span>Admin</span></li>
-                                    </ul>
-                                    <h3 class="title"><a href="blog-details.html">Four Ways for Creating Extra Space in Small Homes</a></h3>
-                                    <p>Modest, recently established interior design company that seeks to address a variety of topics, includingâ€¦</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="post-card">
-                                <div class="post-thumb">
-                                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog/post-3.png' ); ?>" alt="post">
-                                    <span class="category">exteriors</span>
-                                </div>
-                                <div class="post-content">
-                                    <ul class="post-meta">
-                                        <li>Dec 25, 2025</li>
-                                        <li>By <span>Admin</span></li>
-                                    </ul>
-                                    <h3 class="title"><a href="blog-details.html">Four Ways for Creating Extra Space in Small Homes</a></h3>
-                                    <p>Modest, recently established interior design company that seeks to address a variety of topics, includingâ€¦</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ blog-section -->
-        <?php endif; ?>
 
         <?php if ( $interior_section = interior_get_home_section_override( 'gallery' ) ) : ?>
             <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -796,5 +476,3 @@ get_header();
         
 <?php
 get_footer();
-
-
