@@ -159,7 +159,29 @@ function interior_get_footer_defaults() {
  * @return array
  */
 function interior_get_footer_data() {
-	return interior_parse_theme_option_data( get_option( 'interior_footer_settings', array() ), interior_get_footer_defaults() );
+	$defaults = interior_get_footer_defaults();
+	$saved    = get_option( 'interior_footer_settings', array() );
+	$saved    = is_array( $saved ) ? $saved : array();
+	$data     = interior_parse_theme_option_data( $saved, $defaults );
+
+	if ( isset( $saved['link_columns'] ) && is_array( $saved['link_columns'] ) ) {
+		$data['link_columns'] = $defaults['link_columns'];
+
+		foreach ( $defaults['link_columns'] as $column_index => $column_defaults ) {
+			$column_saved = isset( $saved['link_columns'][ $column_index ] ) && is_array( $saved['link_columns'][ $column_index ] ) ? $saved['link_columns'][ $column_index ] : array();
+
+			foreach ( $column_defaults as $link_index => $link_defaults ) {
+				$link_saved = isset( $column_saved[ $link_index ] ) && is_array( $column_saved[ $link_index ] ) ? $column_saved[ $link_index ] : array();
+
+				$data['link_columns'][ $column_index ][ $link_index ] = array(
+					'label' => isset( $link_saved['label'] ) && ! is_array( $link_saved['label'] ) ? $link_saved['label'] : $link_defaults['label'],
+					'url'   => isset( $link_saved['url'] ) && ! is_array( $link_saved['url'] ) ? $link_saved['url'] : $link_defaults['url'],
+				);
+			}
+		}
+	}
+
+	return $data;
 }
 
 /**
@@ -451,9 +473,8 @@ function interior_render_footer_edit_page() {
 							<?php foreach ( $column as $index => $item ) : ?>
 								<?php
 								$item_label = isset( $item['label'] ) && ! is_array( $item['label'] ) ? $item['label'] : '';
-								$item_url   = isset( $item['url'] ) && ! is_array( $item['url'] ) ? $item['url'] : '';
 								?>
-								<tr><th scope="row"><?php echo esc_html( sprintf( 'Link %d', $index + 1 ) ); ?></th><td><input type="text" name="footer[link_columns][<?php echo esc_attr( $column_index ); ?>][<?php echo esc_attr( $index ); ?>][label]" value="<?php echo esc_attr( $item_label ); ?>" placeholder="Label"> <input class="regular-text" type="text" name="footer[link_columns][<?php echo esc_attr( $column_index ); ?>][<?php echo esc_attr( $index ); ?>][url]" value="<?php echo esc_attr( $item_url ); ?>" placeholder="URL"></td></tr>
+								<tr><th scope="row"><?php echo esc_html( sprintf( 'Link %d', $index + 1 ) ); ?></th><td><input class="regular-text" type="text" name="footer[link_columns][<?php echo esc_attr( $column_index ); ?>][<?php echo esc_attr( $index ); ?>][label]" value="<?php echo esc_attr( $item_label ); ?>" placeholder="Label"></td></tr>
 							<?php endforeach; ?>
 						</table>
 					<?php endforeach; ?>
@@ -527,6 +548,52 @@ function interior_sanitize_theme_settings( $raw, $defaults ) {
 }
 
 /**
+ * Sanitize Footer edit page settings.
+ *
+ * @param array $raw Raw values.
+ * @return array
+ */
+function interior_sanitize_footer_settings( $raw ) {
+	$defaults = interior_get_footer_defaults();
+	$current  = interior_get_footer_data();
+	$raw      = is_array( $raw ) ? $raw : array();
+	$data     = interior_sanitize_theme_settings( $raw, $current );
+
+	if ( isset( $raw['link_columns'] ) && is_array( $raw['link_columns'] ) ) {
+		$data['link_columns'] = $current['link_columns'];
+
+		foreach ( $defaults['link_columns'] as $column_index => $column_defaults ) {
+			$column_raw = isset( $raw['link_columns'][ $column_index ] ) && is_array( $raw['link_columns'][ $column_index ] ) ? $raw['link_columns'][ $column_index ] : array();
+
+			foreach ( $column_defaults as $link_index => $link_defaults ) {
+				$link_raw = isset( $column_raw[ $link_index ] ) && is_array( $column_raw[ $link_index ] ) ? $column_raw[ $link_index ] : array();
+				$link_current = isset( $current['link_columns'][ $column_index ][ $link_index ] ) && is_array( $current['link_columns'][ $column_index ][ $link_index ] ) ? $current['link_columns'][ $column_index ][ $link_index ] : $link_defaults;
+
+				$data['link_columns'][ $column_index ][ $link_index ] = array(
+					'label' => isset( $link_raw['label'] ) && ! is_array( $link_raw['label'] ) ? sanitize_text_field( $link_raw['label'] ) : $link_defaults['label'],
+					'url'   => isset( $link_raw['url'] ) && ! is_array( $link_raw['url'] ) ? esc_url_raw( $link_raw['url'] ) : $link_current['url'],
+				);
+			}
+		}
+	}
+
+	if ( isset( $raw['social_items'] ) && is_array( $raw['social_items'] ) ) {
+		$data['social_items'] = $defaults['social_items'];
+
+		foreach ( $defaults['social_items'] as $index => $item_defaults ) {
+			$item_raw = isset( $raw['social_items'][ $index ] ) && is_array( $raw['social_items'][ $index ] ) ? $raw['social_items'][ $index ] : array();
+
+			$data['social_items'][ $index ] = array(
+				'label' => isset( $item_raw['label'] ) && ! is_array( $item_raw['label'] ) ? sanitize_text_field( $item_raw['label'] ) : $item_defaults['label'],
+				'url'   => isset( $item_raw['url'] ) && ! is_array( $item_raw['url'] ) ? esc_url_raw( $item_raw['url'] ) : $item_defaults['url'],
+			);
+		}
+	}
+
+	return $data;
+}
+
+/**
  * Save Header edit page values.
  */
 function interior_save_header_settings() {
@@ -551,7 +618,7 @@ function interior_save_footer_settings() {
 	}
 
 	$raw = isset( $_POST['footer'] ) && is_array( $_POST['footer'] ) ? wp_unslash( $_POST['footer'] ) : array();
-	update_option( 'interior_footer_settings', interior_sanitize_theme_settings( $raw, interior_get_footer_defaults() ) );
+	update_option( 'interior_footer_settings', interior_sanitize_footer_settings( $raw ) );
 
 	wp_safe_redirect( add_query_arg( 'updated', 'true', wp_get_referer() ? wp_get_referer() : admin_url( 'themes.php?page=interior-footer-edit' ) ) );
 	exit;
@@ -731,7 +798,7 @@ function interior_admin_media_picker( $hook ) {
 	$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
 	$post    = $post_id ? get_post( $post_id ) : null;
 
-	if ( ! $screen || ( ! in_array( $screen->post_type, array( 'interior_service', 'interior_project' ), true ) && ! interior_is_home_editor_page( $post ) && ! interior_is_template_editor_page( $post, 'page-about.php', 'about-us' ) && ! interior_is_template_editor_page( $post, 'page-about.php', 'about' ) && ( ! function_exists( 'interior_is_media_editor_page' ) || ! interior_is_media_editor_page( $post ) ) ) ) {
+	if ( ! $screen || ( ! in_array( $screen->post_type, array( 'interior_service', 'interior_project' ), true ) && ! interior_is_home_editor_page( $post ) && ! interior_is_template_editor_page( $post, 'page-about.php', 'about-us' ) && ! interior_is_template_editor_page( $post, 'page-about.php', 'about' ) && ! interior_is_template_editor_page( $post, 'page-contact.php', 'contact' ) && ! interior_is_template_editor_page( $post, 'page-downloads.php', 'downloads' ) && ( ! function_exists( 'interior_is_media_editor_page' ) || ! interior_is_media_editor_page( $post ) ) ) ) {
 		return;
 	}
 
@@ -3116,6 +3183,148 @@ function interior_get_contact_section_tabs() {
 }
 
 /**
+ * Default structured Contact page values.
+ *
+ * @return array
+ */
+function interior_get_contact_page_defaults() {
+	return array(
+		'page_header' => array(
+			'title'           => 'Contact Us',
+			'breadcrumb_home' => 'Home',
+			'breadcrumb_url'  => home_url( '/' ),
+			'breadcrumb_text' => 'Contact Us',
+			'bg_image_id'     => 0,
+			'bg_image_url'    => get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png',
+		),
+		'contact'     => array(
+			'subtitle'            => 'get in touch',
+			'title'               => 'Have a Project in <span>Mind? Let&rsquo;s <br> Make</span> It Happen',
+			'address_label'       => 'Address',
+			'address_text'        => '5609 E Sprague Ave, Spokane <br> Valley, WA 99212, USA',
+			'support_label'       => 'Support',
+			'phone'               => '+(084) 456-0789',
+			'phone_url'           => 'tel:+0844560789',
+			'email'               => 'support@example.com',
+			'email_url'           => 'mailto:support@example.com',
+			'image_id'            => 0,
+			'image_url'           => get_template_directory_uri() . '/assets/img/images/contact-img-1.png',
+			'cf7_shortcode'       => '',
+		),
+		'map'         => array(
+			'iframe_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8826.923787362664!2d-118.27754354757262!3d34.03471770929568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20California%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1566525118697!5m2!1svi!2s',
+			'height'     => '620',
+		),
+	);
+}
+
+/**
+ * Get structured Contact page values.
+ *
+ * @param int $page_id Page ID.
+ * @return array
+ */
+function interior_get_contact_page_data( $page_id = 0 ) {
+	$page_id  = $page_id ? $page_id : get_queried_object_id();
+	$defaults = interior_get_contact_page_defaults();
+	$saved    = $page_id ? get_post_meta( $page_id, '_interior_contact_page_data', true ) : array();
+	$saved    = is_array( $saved ) ? $saved : array();
+	$data     = wp_parse_args( $saved, $defaults );
+
+	foreach ( $defaults as $section => $section_defaults ) {
+		$data[ $section ] = wp_parse_args( isset( $saved[ $section ] ) && is_array( $saved[ $section ] ) ? $saved[ $section ] : array(), $section_defaults );
+	}
+
+	return $data;
+}
+
+/**
+ * Downloads page section keys and labels.
+ *
+ * @return array
+ */
+function interior_get_downloads_section_tabs() {
+	return array(
+		'page_header' => esc_html__( 'Page Header', 'interior' ),
+		'uploads'     => esc_html__( 'Uploads', 'interior' ),
+	);
+}
+
+/**
+ * Default structured Downloads page values.
+ *
+ * @return array
+ */
+function interior_get_downloads_page_defaults() {
+	return array(
+		'page_header' => array(
+			'title'           => 'Downloads',
+			'breadcrumb_home' => 'Home',
+			'breadcrumb_url'  => home_url( '/' ),
+			'breadcrumb_text' => 'Downloads',
+			'bg_image_id'     => 0,
+			'bg_image_url'    => get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png',
+		),
+		'uploads'     => array(
+			'file_ids' => array(),
+		),
+	);
+}
+
+/**
+ * Get structured Downloads page values.
+ *
+ * @param int $page_id Page ID.
+ * @return array
+ */
+function interior_get_downloads_page_data( $page_id = 0 ) {
+	$page_id  = $page_id ? $page_id : get_queried_object_id();
+	$defaults = interior_get_downloads_page_defaults();
+	$saved    = $page_id ? get_post_meta( $page_id, '_interior_downloads_page_data', true ) : array();
+	$saved    = is_array( $saved ) ? $saved : array();
+	$data     = wp_parse_args( $saved, $defaults );
+
+	foreach ( $defaults as $section => $section_defaults ) {
+		$data[ $section ] = wp_parse_args( isset( $saved[ $section ] ) && is_array( $saved[ $section ] ) ? $saved[ $section ] : array(), $section_defaults );
+	}
+
+	$data['uploads']['file_ids'] = isset( $data['uploads']['file_ids'] ) && is_array( $data['uploads']['file_ids'] ) ? array_filter( array_map( 'absint', $data['uploads']['file_ids'] ) ) : array();
+
+	return $data;
+}
+
+/**
+ * Get downloads page file attachment data.
+ *
+ * @param int $page_id Page ID.
+ * @return array
+ */
+function interior_get_downloads_files( $page_id = 0 ) {
+	$data  = interior_get_downloads_page_data( $page_id );
+	$files = array();
+
+	foreach ( $data['uploads']['file_ids'] as $file_id ) {
+		$url = wp_get_attachment_url( $file_id );
+
+		if ( ! $url ) {
+			continue;
+		}
+
+		$file_path = get_attached_file( $file_id );
+
+		$files[] = array(
+			'id'    => $file_id,
+			'title' => get_the_title( $file_id ),
+			'url'   => $url,
+			'type'  => get_post_mime_type( $file_id ),
+			'size'  => $file_path && file_exists( $file_path ) ? size_format( (int) filesize( $file_path ) ) : '',
+		);
+	}
+
+	return $files;
+}
+
+/**
  * Determine if a page uses a given template or slug.
  *
  * @param WP_Post|null $post     Page post.
@@ -3154,6 +3363,17 @@ function interior_register_page_section_metaboxes() {
 			'interior_contact_sections',
 			esc_html__( 'Contact Page Sections', 'interior' ),
 			'interior_render_contact_metabox',
+			'page',
+			'normal',
+			'high'
+		);
+	}
+
+	if ( interior_is_template_editor_page( $post, 'page-downloads.php', 'downloads' ) ) {
+		add_meta_box(
+			'interior_downloads_sections',
+			esc_html__( 'Downloads Page Sections', 'interior' ),
+			'interior_render_downloads_metabox',
 			'page',
 			'normal',
 			'high'
@@ -3454,7 +3674,260 @@ function interior_render_about_metabox( $post ) {
  * @param WP_Post $post Current page.
  */
 function interior_render_contact_metabox( $post ) {
-	interior_render_tabbed_section_editor( $post, '_interior_contact_sections', interior_get_contact_section_tabs(), 'interior_contact' );
+	$data  = interior_get_contact_page_data( $post->ID );
+	$tabs  = interior_get_contact_section_tabs();
+	$first = true;
+
+	wp_nonce_field( 'interior_contact_page', 'interior_contact_page_field' );
+	?>
+	<style>
+		.interior-page-tabs-nav { display:flex; flex-wrap:wrap; border-bottom:2px solid #ddd; margin:16px 0 20px; }
+		.interior-page-tab-btn { background:#fff; border:0; border-bottom:3px solid transparent; color:#555; cursor:pointer; font-weight:600; padding:10px 14px; }
+		.interior-page-tab-btn.active { border-bottom-color:#2271b1; color:#1d2327; }
+		.interior-page-tab-content { display:none; }
+		.interior-page-tab-content.active { display:block; }
+		.interior-page-image-preview { display:block; max-width:220px; height:auto; margin:0 0 10px; }
+	</style>
+	<div class="interior-page-tabs">
+		<div class="interior-page-tabs-nav">
+			<?php foreach ( $tabs as $key => $label ) : ?>
+				<button type="button" class="interior-page-tab-btn <?php echo $first ? 'active' : ''; ?>" data-tab="<?php echo esc_attr( 'interior-contact-' . $key ); ?>"><?php echo esc_html( $label ); ?></button>
+				<?php $first = false; ?>
+			<?php endforeach; ?>
+		</div>
+		<?php $first = true; ?>
+		<?php foreach ( $tabs as $key => $label ) : ?>
+			<div id="<?php echo esc_attr( 'interior-contact-' . $key ); ?>" class="interior-page-tab-content <?php echo $first ? 'active' : ''; ?>">
+				<p class="description"><?php echo esc_html( sprintf( 'Edit the %s section content here.', $label ) ); ?></p>
+				<table class="form-table" role="presentation">
+					<?php if ( 'page_header' === $key ) : ?>
+						<?php $section = $data['page_header']; ?>
+						<tr><th scope="row"><?php esc_html_e( 'Title', 'interior' ); ?></th><td><input type="text" class="large-text" name="interior_contact_page[page_header][title]" value="<?php echo esc_attr( $section['title'] ); ?>"></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Breadcrumb', 'interior' ); ?></th><td><input type="text" name="interior_contact_page[page_header][breadcrumb_home]" value="<?php echo esc_attr( $section['breadcrumb_home'] ); ?>" placeholder="Home"> <input type="text" class="regular-text" name="interior_contact_page[page_header][breadcrumb_url]" value="<?php echo esc_attr( $section['breadcrumb_url'] ); ?>" placeholder="Home URL"> <input type="text" name="interior_contact_page[page_header][breadcrumb_text]" value="<?php echo esc_attr( $section['breadcrumb_text'] ); ?>" placeholder="Current"></td></tr>
+						<?php interior_render_about_image_field( 'interior_contact_page[page_header][bg_image_id]', 'contact_page_header_bg', $section['bg_image_id'], $section['bg_image_url'], __( 'Background Image', 'interior' ) ); ?>
+					<?php elseif ( 'contact' === $key ) : ?>
+						<?php $section = $data['contact']; ?>
+						<tr><th scope="row"><?php esc_html_e( 'Subtitle', 'interior' ); ?></th><td><input type="text" class="large-text" name="interior_contact_page[contact][subtitle]" value="<?php echo esc_attr( $section['subtitle'] ); ?>"></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Title', 'interior' ); ?></th><td><textarea class="large-text" rows="2" name="interior_contact_page[contact][title]"><?php echo esc_textarea( $section['title'] ); ?></textarea></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Address Box', 'interior' ); ?></th><td><input type="text" class="regular-text" name="interior_contact_page[contact][address_label]" value="<?php echo esc_attr( $section['address_label'] ); ?>"><textarea class="large-text" rows="2" name="interior_contact_page[contact][address_text]"><?php echo esc_textarea( $section['address_text'] ); ?></textarea></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Support Box', 'interior' ); ?></th><td><input type="text" class="regular-text" name="interior_contact_page[contact][support_label]" value="<?php echo esc_attr( $section['support_label'] ); ?>"><br><input type="text" name="interior_contact_page[contact][phone]" value="<?php echo esc_attr( $section['phone'] ); ?>" placeholder="Phone"> <input type="text" class="regular-text" name="interior_contact_page[contact][phone_url]" value="<?php echo esc_attr( $section['phone_url'] ); ?>" placeholder="Phone URL"><br><input type="text" name="interior_contact_page[contact][email]" value="<?php echo esc_attr( $section['email'] ); ?>" placeholder="Email"> <input type="text" class="regular-text" name="interior_contact_page[contact][email_url]" value="<?php echo esc_attr( $section['email_url'] ); ?>" placeholder="Email URL"></td></tr>
+						<?php interior_render_about_image_field( 'interior_contact_page[contact][image_id]', 'contact_section_image', $section['image_id'], $section['image_url'], __( 'Contact Image', 'interior' ) ); ?>
+						<tr><th scope="row"><?php esc_html_e( 'Contact Form 7 Shortcode', 'interior' ); ?></th><td><input type="text" class="large-text" name="interior_contact_page[contact][cf7_shortcode]" value="<?php echo esc_attr( $section['cf7_shortcode'] ); ?>" placeholder='[contact-form-7 id="123" title="Contact form"]'><p class="description"><?php esc_html_e( 'Create a form in Contact Form 7, then paste its shortcode here.', 'interior' ); ?></p></td></tr>
+					<?php elseif ( 'map' === $key ) : ?>
+						<?php $section = $data['map']; ?>
+						<tr><th scope="row"><?php esc_html_e( 'Google Map Embed URL', 'interior' ); ?></th><td><textarea class="large-text" rows="4" name="interior_contact_page[map][iframe_url]"><?php echo esc_textarea( $section['iframe_url'] ); ?></textarea></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Map Height', 'interior' ); ?></th><td><input type="number" class="small-text" name="interior_contact_page[map][height]" value="<?php echo esc_attr( $section['height'] ); ?>"> px</td></tr>
+					<?php endif; ?>
+				</table>
+			</div>
+			<?php $first = false; ?>
+		<?php endforeach; ?>
+	</div>
+	<script>
+		(function() {
+			const buttons = document.querySelectorAll('.interior-page-tab-btn');
+			const contents = document.querySelectorAll('.interior-page-tab-content');
+			buttons.forEach(function(button) {
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					const tab = this.getAttribute('data-tab');
+					buttons.forEach(function(item) { item.classList.remove('active'); });
+					contents.forEach(function(item) { item.classList.remove('active'); });
+					this.classList.add('active');
+					document.getElementById(tab).classList.add('active');
+				});
+			});
+		})();
+		(function($) {
+			$('.interior-about-upload').on('click', function(e) {
+				e.preventDefault();
+				const target = $(this).data('target');
+				const preview = $(this).data('preview');
+				const frame = wp.media({ title: 'Select Image', button: { text: 'Use this image' }, multiple: false });
+				frame.on('select', function() {
+					const attachment = frame.state().get('selection').first().toJSON();
+					$(target).val(attachment.id);
+					$(preview).attr('src', attachment.url).show();
+				});
+				frame.open();
+			});
+			$('.interior-about-remove').on('click', function(e) {
+				e.preventDefault();
+				$($(this).data('target')).val('');
+				$($(this).data('preview')).attr('src', '').hide();
+			});
+		})(jQuery);
+	</script>
+	<?php
+}
+
+/**
+ * Render Downloads sections metabox.
+ *
+ * @param WP_Post $post Current page.
+ */
+function interior_render_downloads_metabox( $post ) {
+	$data        = interior_get_downloads_page_data( $post->ID );
+	$tabs        = interior_get_downloads_section_tabs();
+	$first       = true;
+	$upload_ids  = $data['uploads']['file_ids'];
+	$upload_data = array();
+
+	foreach ( $upload_ids as $file_id ) {
+		$url = wp_get_attachment_url( $file_id );
+
+		if ( ! $url ) {
+			continue;
+		}
+
+		$upload_data[] = array(
+			'id'    => $file_id,
+			'title' => get_the_title( $file_id ),
+			'url'   => $url,
+			'type'  => get_post_mime_type( $file_id ),
+		);
+	}
+
+	wp_nonce_field( 'interior_downloads_page', 'interior_downloads_page_field' );
+	?>
+	<style>
+		.interior-page-tabs-nav { display:flex; flex-wrap:wrap; border-bottom:2px solid #ddd; margin:16px 0 20px; }
+		.interior-page-tab-btn { background:#fff; border:0; border-bottom:3px solid transparent; color:#555; cursor:pointer; font-weight:600; padding:10px 14px; }
+		.interior-page-tab-btn.active { border-bottom-color:#2271b1; color:#1d2327; }
+		.interior-page-tab-content { display:none; }
+		.interior-page-tab-content.active { display:block; }
+		.interior-page-image-preview { display:block; max-width:220px; height:auto; margin:0 0 10px; }
+		.interior-downloads-admin-list { margin:12px 0 0; max-width:720px; }
+		.interior-downloads-admin-item { align-items:center; background:#fff; border:1px solid #dcdcde; display:flex; gap:10px; justify-content:space-between; margin:0 0 8px; padding:9px 12px; }
+		.interior-downloads-admin-title { font-weight:600; }
+		.interior-downloads-admin-type { color:#646970; font-size:12px; }
+	</style>
+	<div class="interior-page-tabs">
+		<div class="interior-page-tabs-nav">
+			<?php foreach ( $tabs as $key => $label ) : ?>
+				<button type="button" class="interior-page-tab-btn <?php echo $first ? 'active' : ''; ?>" data-tab="<?php echo esc_attr( 'interior-downloads-' . $key ); ?>"><?php echo esc_html( $label ); ?></button>
+				<?php $first = false; ?>
+			<?php endforeach; ?>
+		</div>
+		<?php $first = true; ?>
+		<?php foreach ( $tabs as $key => $label ) : ?>
+			<div id="<?php echo esc_attr( 'interior-downloads-' . $key ); ?>" class="interior-page-tab-content <?php echo $first ? 'active' : ''; ?>">
+				<p class="description"><?php echo esc_html( sprintf( 'Edit the %s section content here.', $label ) ); ?></p>
+				<table class="form-table" role="presentation">
+					<?php if ( 'page_header' === $key ) : ?>
+						<?php $section = $data['page_header']; ?>
+						<tr><th scope="row"><?php esc_html_e( 'Title', 'interior' ); ?></th><td><input type="text" class="large-text" name="interior_downloads_page[page_header][title]" value="<?php echo esc_attr( $section['title'] ); ?>"></td></tr>
+						<tr><th scope="row"><?php esc_html_e( 'Breadcrumb', 'interior' ); ?></th><td><input type="text" name="interior_downloads_page[page_header][breadcrumb_home]" value="<?php echo esc_attr( $section['breadcrumb_home'] ); ?>" placeholder="Home"> <input type="text" class="regular-text" name="interior_downloads_page[page_header][breadcrumb_url]" value="<?php echo esc_attr( $section['breadcrumb_url'] ); ?>" placeholder="Home URL"> <input type="text" name="interior_downloads_page[page_header][breadcrumb_text]" value="<?php echo esc_attr( $section['breadcrumb_text'] ); ?>" placeholder="Current"></td></tr>
+						<?php interior_render_about_image_field( 'interior_downloads_page[page_header][bg_image_id]', 'downloads_page_header_bg', $section['bg_image_id'], $section['bg_image_url'], __( 'Background Image', 'interior' ) ); ?>
+					<?php elseif ( 'uploads' === $key ) : ?>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Download Files', 'interior' ); ?></th>
+							<td>
+								<input type="hidden" id="interior_download_file_ids" name="interior_downloads_page[uploads][file_ids]" value="<?php echo esc_attr( implode( ',', $upload_ids ) ); ?>">
+								<button type="button" class="button button-primary" id="interior_download_upload_files"><?php esc_html_e( 'Select Files', 'interior' ); ?></button>
+								<button type="button" class="button" id="interior_download_clear_files" <?php echo empty( $upload_ids ) ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Clear Files', 'interior' ); ?></button>
+								<p class="description"><?php esc_html_e( 'Upload or choose PDF, Word, Excel, or CSV files. They will display one below another on the Downloads page.', 'interior' ); ?></p>
+								<div id="interior_download_files_preview" class="interior-downloads-admin-list"></div>
+							</td>
+						</tr>
+					<?php endif; ?>
+				</table>
+			</div>
+			<?php $first = false; ?>
+		<?php endforeach; ?>
+	</div>
+	<script>
+		(function() {
+			const buttons = document.querySelectorAll('.interior-page-tab-btn');
+			const contents = document.querySelectorAll('.interior-page-tab-content');
+			buttons.forEach(function(button) {
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					const tab = this.getAttribute('data-tab');
+					buttons.forEach(function(item) { item.classList.remove('active'); });
+					contents.forEach(function(item) { item.classList.remove('active'); });
+					this.classList.add('active');
+					document.getElementById(tab).classList.add('active');
+				});
+			});
+		})();
+		(function($) {
+			const allowedExt = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv'];
+			let selectedFiles = <?php echo wp_json_encode( $upload_data ); ?>;
+
+			function renderFiles() {
+				const preview = $('#interior_download_files_preview');
+				const ids = selectedFiles.map(function(file) { return file.id; });
+				preview.empty();
+				$('#interior_download_file_ids').val(ids.join(','));
+				$('#interior_download_clear_files').toggle(ids.length > 0);
+
+				selectedFiles.forEach(function(file) {
+					const title = file.title || file.url || 'Download file';
+					const type = file.type || '';
+					preview.append('<div class="interior-downloads-admin-item"><div><div class="interior-downloads-admin-title">' + $('<div>').text(title).html() + '</div><div class="interior-downloads-admin-type">' + $('<div>').text(type).html() + '</div></div><button type="button" class="button interior-download-remove-file" data-id="' + file.id + '"><?php echo esc_js( __( 'Remove', 'interior' ) ); ?></button></div>');
+				});
+			}
+
+			$('#interior_download_upload_files').on('click', function(e) {
+				e.preventDefault();
+				const frame = wp.media({ title: 'Select Download Files', button: { text: 'Use these files' }, multiple: true });
+				frame.on('select', function() {
+					const seen = {};
+					selectedFiles.forEach(function(file) {
+						seen[file.id] = true;
+					});
+					frame.state().get('selection').each(function(attachment) {
+						const item = attachment.toJSON();
+						const ext = (item.filename || item.url || '').split('.').pop().toLowerCase();
+						if (-1 === allowedExt.indexOf(ext) || seen[item.id]) {
+							return;
+						}
+						seen[item.id] = true;
+						selectedFiles.push({ id: item.id, title: item.title || item.filename, url: item.url, type: item.mime || item.subtype || '' });
+					});
+					renderFiles();
+				});
+				frame.open();
+			});
+
+			$('#interior_download_clear_files').on('click', function(e) {
+				e.preventDefault();
+				selectedFiles = [];
+				renderFiles();
+			});
+
+			$('#interior_download_files_preview').on('click', '.interior-download-remove-file', function(e) {
+				e.preventDefault();
+				const id = parseInt($(this).data('id'), 10);
+				selectedFiles = selectedFiles.filter(function(file) {
+					return parseInt(file.id, 10) !== id;
+				});
+				renderFiles();
+			});
+
+			$('.interior-about-upload').on('click', function(e) {
+				e.preventDefault();
+				const target = $(this).data('target');
+				const preview = $(this).data('preview');
+				const frame = wp.media({ title: 'Select Image', button: { text: 'Use this image' }, multiple: false });
+				frame.on('select', function() {
+					const attachment = frame.state().get('selection').first().toJSON();
+					$(target).val(attachment.id);
+					$(preview).attr('src', attachment.url).show();
+				});
+				frame.open();
+			});
+			$('.interior-about-remove').on('click', function(e) {
+				e.preventDefault();
+				$($(this).data('target')).val('');
+				$($(this).data('preview')).attr('src', '').hide();
+			});
+
+			renderFiles();
+		})(jQuery);
+	</script>
+	<?php
 }
 
 /**
@@ -3518,6 +3991,91 @@ function interior_sanitize_about_page_data( $raw ) {
 }
 
 /**
+ * Sanitize structured Contact page data.
+ *
+ * @param array $raw Raw submitted data.
+ * @return array
+ */
+function interior_sanitize_contact_page_data( $raw ) {
+	$defaults = interior_get_contact_page_defaults();
+	$raw      = is_array( $raw ) ? $raw : array();
+	$data     = $defaults;
+
+	foreach ( $defaults as $section_key => $section_defaults ) {
+		$section_raw = isset( $raw[ $section_key ] ) && is_array( $raw[ $section_key ] ) ? $raw[ $section_key ] : array();
+
+		foreach ( $section_defaults as $field_key => $default_value ) {
+			if ( ! isset( $section_raw[ $field_key ] ) ) {
+				continue;
+			}
+
+			if ( false !== strpos( $field_key, 'image_id' ) ) {
+				$data[ $section_key ][ $field_key ] = absint( $section_raw[ $field_key ] );
+			} elseif ( 'height' === $field_key ) {
+				$data[ $section_key ][ $field_key ] = absint( $section_raw[ $field_key ] );
+			} elseif ( false !== strpos( $field_key, 'url' ) || 'form_action' === $field_key || 'iframe_url' === $field_key ) {
+				$data[ $section_key ][ $field_key ] = esc_url_raw( $section_raw[ $field_key ] );
+			} elseif ( in_array( $field_key, array( 'title', 'address_text' ), true ) ) {
+				$data[ $section_key ][ $field_key ] = wp_kses_post( $section_raw[ $field_key ] );
+			} else {
+				$data[ $section_key ][ $field_key ] = sanitize_text_field( $section_raw[ $field_key ] );
+			}
+		}
+	}
+
+	return $data;
+}
+
+/**
+ * Sanitize structured Downloads page data.
+ *
+ * @param array $raw Raw submitted data.
+ * @return array
+ */
+function interior_sanitize_downloads_page_data( $raw ) {
+	$defaults     = interior_get_downloads_page_defaults();
+	$raw          = is_array( $raw ) ? $raw : array();
+	$data         = $defaults;
+	$allowed_exts = array( 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv' );
+
+	if ( isset( $raw['page_header'] ) && is_array( $raw['page_header'] ) ) {
+		foreach ( $defaults['page_header'] as $field_key => $default_value ) {
+			if ( ! isset( $raw['page_header'][ $field_key ] ) ) {
+				continue;
+			}
+
+			if ( 'bg_image_id' === $field_key ) {
+				$data['page_header'][ $field_key ] = absint( $raw['page_header'][ $field_key ] );
+			} elseif ( false !== strpos( $field_key, 'url' ) ) {
+				$data['page_header'][ $field_key ] = esc_url_raw( $raw['page_header'][ $field_key ] );
+			} else {
+				$data['page_header'][ $field_key ] = sanitize_text_field( $raw['page_header'][ $field_key ] );
+			}
+		}
+	}
+
+	$file_ids_raw = isset( $raw['uploads']['file_ids'] ) ? $raw['uploads']['file_ids'] : '';
+	$file_ids     = is_array( $file_ids_raw ) ? $file_ids_raw : explode( ',', (string) $file_ids_raw );
+	$file_ids     = array_filter( array_map( 'absint', $file_ids ) );
+	$file_ids     = array_values( array_unique( $file_ids ) );
+
+	foreach ( $file_ids as $file_id ) {
+		if ( 'attachment' !== get_post_type( $file_id ) ) {
+			continue;
+		}
+
+		$file_url = wp_get_attachment_url( $file_id );
+		$file_ext = strtolower( pathinfo( (string) $file_url, PATHINFO_EXTENSION ) );
+
+		if ( in_array( $file_ext, $allowed_exts, true ) ) {
+			$data['uploads']['file_ids'][] = $file_id;
+		}
+	}
+
+	return $data;
+}
+
+/**
  * Save About and Contact section metaboxes.
  *
  * @param int $post_id Post ID.
@@ -3534,6 +4092,18 @@ function interior_save_page_section_metaboxes( $post_id ) {
 	if ( isset( $_POST['interior_about_page_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['interior_about_page_field'] ) ), 'interior_about_page' ) ) {
 		$raw = isset( $_POST['interior_about_page'] ) && is_array( $_POST['interior_about_page'] ) ? wp_unslash( $_POST['interior_about_page'] ) : array();
 		update_post_meta( $post_id, '_interior_about_page_data', interior_sanitize_about_page_data( $raw ) );
+		return;
+	}
+
+	if ( isset( $_POST['interior_contact_page_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['interior_contact_page_field'] ) ), 'interior_contact_page' ) ) {
+		$raw = isset( $_POST['interior_contact_page'] ) && is_array( $_POST['interior_contact_page'] ) ? wp_unslash( $_POST['interior_contact_page'] ) : array();
+		update_post_meta( $post_id, '_interior_contact_page_data', interior_sanitize_contact_page_data( $raw ) );
+		return;
+	}
+
+	if ( isset( $_POST['interior_downloads_page_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['interior_downloads_page_field'] ) ), 'interior_downloads_page' ) ) {
+		$raw = isset( $_POST['interior_downloads_page'] ) && is_array( $_POST['interior_downloads_page'] ) ? wp_unslash( $_POST['interior_downloads_page'] ) : array();
+		update_post_meta( $post_id, '_interior_downloads_page_data', interior_sanitize_downloads_page_data( $raw ) );
 		return;
 	}
 
@@ -3568,6 +4138,10 @@ add_action( 'save_post_page', 'interior_save_page_section_metaboxes' );
  */
 function interior_get_page_section_override( $meta_key, $section ) {
 	if ( '_interior_about_sections' === $meta_key && array_key_exists( $section, interior_get_about_section_tabs() ) ) {
+		return '';
+	}
+
+	if ( '_interior_contact_sections' === $meta_key && array_key_exists( $section, interior_get_contact_section_tabs() ) ) {
 		return '';
 	}
 

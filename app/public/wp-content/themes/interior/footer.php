@@ -24,7 +24,7 @@ $interior_footer_logo = ! empty( $interior_footer['logo_id'] ) ? wp_get_attachme
                             <ul class="footer-list">
                                 <?php foreach ( $interior_footer['link_columns'][0] as $interior_footer_link ) : ?>
                                     <?php if ( ! empty( $interior_footer_link['label'] ) ) : ?>
-                                        <li><a href="<?php echo esc_url( $interior_footer_link['url'] ); ?>"><?php echo esc_html( $interior_footer_link['label'] ); ?></a></li>
+                                        <li><a href="<?php echo esc_url( isset( $interior_footer_link['url'] ) ? $interior_footer_link['url'] : '#' ); ?>"><?php echo esc_html( $interior_footer_link['label'] ); ?></a></li>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </ul>
@@ -35,7 +35,7 @@ $interior_footer_logo = ! empty( $interior_footer['logo_id'] ) ? wp_get_attachme
                             <ul class="footer-list">
                                 <?php foreach ( $interior_footer['link_columns'][1] as $interior_footer_link ) : ?>
                                     <?php if ( ! empty( $interior_footer_link['label'] ) ) : ?>
-                                        <li><a href="<?php echo esc_url( $interior_footer_link['url'] ); ?>"><?php echo esc_html( $interior_footer_link['label'] ); ?></a></li>
+                                        <li><a href="<?php echo esc_url( isset( $interior_footer_link['url'] ) ? $interior_footer_link['url'] : '#' ); ?>"><?php echo esc_html( $interior_footer_link['label'] ); ?></a></li>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </ul>

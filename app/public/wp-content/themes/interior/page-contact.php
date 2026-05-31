@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Template Name: Contact
  *
@@ -8,125 +8,90 @@
  */
 
 get_header();
+
+$interior_contact_page = interior_get_contact_page_data( get_queried_object_id() );
+$interior_page_header  = $interior_contact_page['page_header'];
+$interior_contact      = $interior_contact_page['contact'];
+$interior_map          = $interior_contact_page['map'];
+
+$interior_header_bg = ! empty( $interior_page_header['bg_image_id'] ) ? wp_get_attachment_image_url( (int) $interior_page_header['bg_image_id'], 'full' ) : '';
+$interior_header_bg = $interior_header_bg ? $interior_header_bg : $interior_page_header['bg_image_url'];
+$interior_contact_img = ! empty( $interior_contact['image_id'] ) ? wp_get_attachment_image_url( (int) $interior_contact['image_id'], 'large' ) : '';
+$interior_contact_img = $interior_contact_img ? $interior_contact_img : $interior_contact['image_url'];
+$interior_map_height  = ! empty( $interior_map['height'] ) ? absint( $interior_map['height'] ) : 620;
 ?>
 <div id="antra-smooth-wrapper">
-        <div id="antra-smooth-content">
+	<div id="antra-smooth-content">
 
-        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'page_header' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="page-header">
-            <div class="bg-img" data-background="<?php echo esc_url( get_template_directory_uri() . '/assets/img/bg-img/page-header-bg.png' ); ?>"></div>
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="page-header-content">
-                    <h1 class="title">Contact Us</h1>
-                    <h4 class="sub-title"><a class='home' href='service.html'>Home </a><span class="icon">-</span><a class='inner-page' href='blog-details.html'> Contact Us</a></h4>
-                </div>
-            </div>
-        </section>
-        <!-- ./ page-header -->
-        <?php endif; ?>
+		<section class="page-header">
+			<div class="bg-img" data-background="<?php echo esc_url( $interior_header_bg ); ?>"></div>
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="page-header-content">
+					<h1 class="title"><?php echo esc_html( $interior_page_header['title'] ); ?></h1>
+					<h4 class="sub-title"><a class="home" href="<?php echo esc_url( $interior_page_header['breadcrumb_url'] ); ?>"><?php echo esc_html( $interior_page_header['breadcrumb_home'] ); ?> </a><span class="icon">-</span><a class="inner-page" href="<?php echo esc_url( get_permalink() ); ?>"> <?php echo esc_html( $interior_page_header['breadcrumb_text'] ); ?></a></h4>
+				</div>
+			</div>
+		</section>
+		<!-- ./ page-header -->
 
-        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'contact' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <section class="contact-section pt-150 pb-150">
-            <div class="container container-2">
-                <div class="row section-heading-wrap w-100 ml-0">  
-                    <div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="section-heading mb-0">
-                            <h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03">get in touch</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="section-heading section-heading-2 mb-0">
-                            <h2 class="section-title title-2">Have a Project in <span>Mind? Letâ€™s <br> Make</span> It Happen</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row request-wrap contact-page-area">
-                    <div class="col-lg-6">
-                        <div class="request-content">
-                            <div class="request-item-wrap">
-                                <div class="request-item white-content">
-                                    <span>Address</span>
-                                    <p>5609 E Sprague Ave, Spokane <br> Valley, WA 99212, USA</p>
-                                </div>
-                                <div class="request-item white-content">
-                                    <span>Support</span>
-                                    <a href="tel:+0844560789">+(084) 456-0789</a>
-                                    <a href="mailto:support@example.com">support@example.com</a>
-                                </div>
-                            </div>
-                            <div class="contact-img">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/images/contact-img-1.png' ); ?>" alt="img">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="request-form-wrap">
-                            <form action="mail.php" method="post" id="ajax_contact" class="form-horizontal">
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <div class="form-item">
-                                            <h4 class="form-title">Full Name *</h4>
-                                            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Designer">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-item">
-                                            <h4 class="form-title">phone *</h4>
-                                            <input type="text" id="phone" name="phone" class="form-control" placeholder="+(084) 456-0789">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <div class="form-item">
-                                            <h4 class="form-title">Email Address *</h4>
-                                            <input type="text" id="email" name="email" class="form-control" placeholder="support@example.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-item">
-                                            <h4 class="form-title">Services *</h4>
-                                            <input type="text" id="service" name="service" class="form-control" placeholder="I want to">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-12">
-                                        <div class="form-item message-item">
-                                            <h4 class="form-title">Write Message *</h4>
-                                            <textarea id="message" name="message" cols="30" rows="5" class="form-control address" placeholder="Your message.."></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="submit-btn">
-                                    <button id="submit" class="tl-primary-btn" type="submit">Send Message <span class="icon"><i class="fa-regular fa-arrow-right"></i></span></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ contact-section -->
-        <?php endif; ?>
-        
-        <?php if ( $interior_section = interior_get_page_section_override( '_interior_contact_sections', 'map' ) ) : ?>
-            <?php echo $interior_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php else : ?>
-        <div class="map-wrapper pb-150">
-            <div class="container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8826.923787362664!2d-118.27754354757262!3d34.03471770929568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20California%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1566525118697!5m2!1svi!2s" width="100%" height="620" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-            </div>
-        </div>
-        <?php endif; ?>
+		<section class="contact-section pt-150 pb-150">
+			<div class="container container-2">
+				<div class="row section-heading-wrap w-100 ml-0">
+					<div class="shape"><img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/shapes/section-heading.png' ); ?>" alt="shape"></div>
+					<div class="col-lg-4 col-md-12">
+						<div class="section-heading mb-0">
+							<h4 class="sub-heading" data-text-animation="fade-in-right" data-split="char" data-duration="0.9" data-stagger="0.03"><?php echo esc_html( $interior_contact['subtitle'] ); ?></h4>
+						</div>
+					</div>
+					<div class="col-lg-8 col-md-12">
+						<div class="section-heading section-heading-2 mb-0">
+							<h2 class="section-title title-2"><?php echo wp_kses_post( $interior_contact['title'] ); ?></h2>
+						</div>
+					</div>
+				</div>
+				<div class="row request-wrap contact-page-area">
+					<div class="col-lg-6">
+						<div class="request-content">
+							<div class="request-item-wrap">
+								<div class="request-item white-content">
+									<span><?php echo esc_html( $interior_contact['address_label'] ); ?></span>
+									<p><?php echo wp_kses_post( $interior_contact['address_text'] ); ?></p>
+								</div>
+								<div class="request-item white-content">
+									<span><?php echo esc_html( $interior_contact['support_label'] ); ?></span>
+									<a href="<?php echo esc_url( $interior_contact['phone_url'] ); ?>"><?php echo esc_html( $interior_contact['phone'] ); ?></a>
+									<a href="<?php echo esc_url( $interior_contact['email_url'] ); ?>"><?php echo esc_html( $interior_contact['email'] ); ?></a>
+								</div>
+							</div>
+							<?php if ( $interior_contact_img ) : ?>
+								<div class="contact-img">
+									<img src="<?php echo esc_url( $interior_contact_img ); ?>" alt="img">
+								</div>
+							<?php endif; ?>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="request-form-wrap">
+							<?php if ( ! empty( $interior_contact['cf7_shortcode'] ) ) : ?>
+								<?php echo do_shortcode( $interior_contact['cf7_shortcode'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php elseif ( current_user_can( 'edit_pages' ) ) : ?>
+								<p><?php esc_html_e( 'Add a Contact Form 7 shortcode in Pages > Edit Contact > Contact Form tab.', 'interior' ); ?></p>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ./ contact-section -->
 
-        
+		<?php if ( ! empty( $interior_map['iframe_url'] ) ) : ?>
+			<div class="map-wrapper pb-150">
+				<div class="container">
+					<iframe src="<?php echo esc_url( $interior_map['iframe_url'] ); ?>" width="100%" height="<?php echo esc_attr( $interior_map_height ); ?>" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+				</div>
+			</div>
+		<?php endif; ?>
+
 <?php
 get_footer();
-
